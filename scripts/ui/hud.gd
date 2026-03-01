@@ -11,7 +11,7 @@ class_name HUD
 func _ready() -> void:
 	GameManager.gold_changed.connect(_on_gold_changed)
 	GameManager.level_changed.connect(_on_level_changed)
-	
+
 	_update_gold(GameManager.gold)
 	_update_level(GameManager.level)
 

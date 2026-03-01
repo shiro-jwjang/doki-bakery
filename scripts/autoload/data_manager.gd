@@ -1,6 +1,5 @@
 extends Node
 
-
 ## 데이터 매니저 - JSON 데이터를 Resource로 로드
 
 signal data_loaded
@@ -25,9 +24,12 @@ func load_all_data() -> void:
 	_load_fairies()
 	_load_upgrades()
 	data_loaded.emit()
-	print("✅ All game data loaded: %d breads, %d ingredients, %d fairies, %d upgrades" % [
-		breads.size(), ingredients.size(), fairies.size(), upgrades.size()
-	])
+	print(
+		(
+			"✅ All game data loaded: %d breads, %d ingredients, %d fairies, %d upgrades"
+			% [breads.size(), ingredients.size(), fairies.size(), upgrades.size()]
+		)
+	)
 
 
 func _load_breads() -> void:
@@ -35,7 +37,7 @@ func _load_breads() -> void:
 	var json_data = _load_json(file_path)
 	if json_data == null:
 		return
-	
+
 	for bread_dict in json_data.get("breads", []):
 		var bread = BreadData.new()
 		bread.id = bread_dict.get("id", "")
@@ -64,7 +66,7 @@ func _load_ingredients() -> void:
 	var json_data = _load_json(file_path)
 	if json_data == null:
 		return
-	
+
 	for ing_dict in json_data.get("ingredients", []):
 		var ingredient = IngredientData.new()
 		ingredient.id = ing_dict.get("id", "")
@@ -72,7 +74,7 @@ func _load_ingredients() -> void:
 		ingredient.name_en = ing_dict.get("name_en", "")
 		ingredient.base_price = ing_dict.get("base_price", 0)
 		ingredient.max_stack = ing_dict.get("max_stack", 999)
-		
+
 		ingredients[ingredient.id] = ingredient
 
 
@@ -81,7 +83,7 @@ func _load_fairies() -> void:
 	var json_data = _load_json(file_path)
 	if json_data == null:
 		return
-	
+
 	for fairy_dict in json_data.get("fairies", []):
 		var fairy = FairyData.new()
 		fairy.id = fairy_dict.get("id", "")
@@ -92,7 +94,7 @@ func _load_fairies() -> void:
 		fairy.unlock_condition = fairy_dict.get("unlock_condition", {})
 		fairy.cost = fairy_dict.get("cost", 0)
 		fairy.icon = fairy_dict.get("icon", "")
-		
+
 		fairies[fairy.id] = fairy
 
 
@@ -101,7 +103,7 @@ func _load_upgrades() -> void:
 	var json_data = _load_json(file_path)
 	if json_data == null:
 		return
-	
+
 	for upgrade_dict in json_data.get("upgrades", []):
 		var upgrade = UpgradeData.new()
 		upgrade.id = upgrade_dict.get("id", "")
@@ -113,7 +115,7 @@ func _load_upgrades() -> void:
 		upgrade.max_level = upgrade_dict.get("max_level", 1)
 		upgrade.base_cost = upgrade_dict.get("base_cost", 0)
 		upgrade.cost_multiplier = upgrade_dict.get("cost_multiplier", 1.5)
-		
+
 		upgrades[upgrade.id] = upgrade
 
 
@@ -129,7 +131,9 @@ func _load_json(file_path: String) -> Dictionary:
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error != OK:
-		push_error("JSON parse error at line %d: %s" % [json.get_error_line(), json.get_error_message()])
+		push_error(
+			"JSON parse error at line %d: %s" % [json.get_error_line(), json.get_error_message()]
+		)
 		return {}
 
 	return json.data

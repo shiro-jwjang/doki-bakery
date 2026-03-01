@@ -1,0 +1,43 @@
+# Pre-commit hooks for Doki Bakery
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # GDScript formatter and linter
+  - repo: local
+    hooks:
+      - id: gdformat
+        name: GDScript Formatter
+        entry: /home/openclaw/.local/bin/gdformat
+        language: system
+        files: \.gd$
+        pass_filenames: true
+        
+      - id: gdlint
+        name: GDScript Linter
+        entry: /home/openclaw/.local/bin/gdlint
+        language: system
+        files: \.gd$
+        pass_filenames: true
+
+  # General hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.godot/
+      - id: end-of-file-fixer
+        exclude: \.godot/
+      - id: check-json
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+
+  # Markdown formatting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: \.godot/

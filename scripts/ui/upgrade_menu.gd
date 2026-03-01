@@ -41,9 +41,12 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 
 	var cost = _calculate_cost(upgrade, current_level)
 	if GameManager.player_gold < cost:
-		print("UpgradeMenu: Not enough gold for %s (need %d, have %d)" % [
-			upgrade_id, cost, GameManager.player_gold
-		])
+		print(
+			(
+				"UpgradeMenu: Not enough gold for %s (need %d, have %d)"
+				% [upgrade_id, cost, GameManager.player_gold]
+			)
+		)
 		return false
 
 	# Purchase

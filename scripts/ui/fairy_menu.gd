@@ -47,9 +47,12 @@ func hire_fairy(fairy_id: String) -> bool:
 
 	# Check gold
 	if GameManager.player_gold < fairy.cost:
-		print("FairyMenu: Not enough gold for %s (need %d, have %d)" % [
-			fairy_id, fairy.cost, GameManager.player_gold
-		])
+		print(
+			(
+				"FairyMenu: Not enough gold for %s (need %d, have %d)"
+				% [fairy_id, fairy.cost, GameManager.player_gold]
+			)
+		)
 		return false
 
 	# Hire

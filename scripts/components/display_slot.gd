@@ -46,7 +46,10 @@ func sell_bread() -> bool:
 		return false
 
 	# Check if we have inventory to sell
-	if not SalesManager.inventory.has(current_bread_id) or SalesManager.inventory[current_bread_id] <= 0:
+	if (
+		not SalesManager.inventory.has(current_bread_id)
+		or SalesManager.inventory[current_bread_id] <= 0
+	):
 		return false
 
 	# Calculate price and sell

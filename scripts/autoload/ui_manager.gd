@@ -1,6 +1,5 @@
 extends Node
 
-
 ## UI 매니저 - 화면 전환, 모달 관리
 
 signal screen_changed(screen_name: String)
@@ -24,18 +23,18 @@ func _ready() -> void:
 
 func change_screen(screen_scene: PackedScene, fade: bool = true) -> void:
 	var new_screen = screen_scene.instantiate()
-	
+
 	if fade:
 		await _fade_out()
-	
+
 	if _current_screen:
 		_current_screen.queue_free()
-	
+
 	_current_screen = new_screen
 	get_tree().root.add_child(new_screen)
-	
+
 	screen_changed.emit(new_screen.name)
-	
+
 	if fade:
 		await _fade_in()
 
@@ -44,17 +43,17 @@ func push_screen(screen_scene: PackedScene, fade: bool = true) -> void:
 	if _current_screen:
 		_screen_stack.append(_current_screen)
 		_current_screen.hide()
-	
+
 	var new_screen = screen_scene.instantiate()
-	
+
 	if fade:
 		await _fade_out()
-	
+
 	_current_screen = new_screen
 	get_tree().root.add_child(new_screen)
-	
+
 	screen_changed.emit(new_screen.name)
-	
+
 	if fade:
 		await _fade_in()
 
@@ -62,18 +61,18 @@ func push_screen(screen_scene: PackedScene, fade: bool = true) -> void:
 func pop_screen(fade: bool = true) -> void:
 	if _screen_stack.is_empty():
 		return
-	
+
 	if fade:
 		await _fade_out()
-	
+
 	if _current_screen:
 		_current_screen.queue_free()
-	
+
 	_current_screen = _screen_stack.pop_back()
 	_current_screen.show()
-	
+
 	screen_changed.emit(_current_screen.name)
-	
+
 	if fade:
 		await _fade_in()
 

@@ -20,6 +20,12 @@ DataManager="*res://scripts/autoload/data_manager.gd"
 GameManager="*res://scripts/autoload/GameManager.gd"
 ProductionManager="*res://scripts/autoload/ProductionManager.gd"
 SalesManager="*res://scripts/autoload/SalesManager.gd"
+MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
+
+[plugins]
+
+"Godot MCP Auto Reload"={"enabled": true}
+"Godot MCP Runtime"={"enabled": true}
 
 [display]
 
@@ -279,3 +285,11 @@ ssh_remote_deploy/extra_args_ssh=""
 ssh_remote_deploy/extra_args_scp=""
 ssh_remote_deploy/run_script=""
 ssh_remote_deploy/cleanup_script=""
+
+[gdscript]
+
+# Type checking
+typing/strict=true
+typing/static/type_hints=true
+typing/static/strict=true
+

@@ -1,6 +1,5 @@
 extends Node
 
-
 ## 세이브 매니저 - 저장/로드/백업 관리
 
 signal game_saved
@@ -28,21 +27,21 @@ func _process(delta: float) -> void:
 func save_game() -> bool:
 	if current_save == null:
 		current_save = SaveData.new()
-	
+
 	current_save.timestamp = Time.get_unix_time_from_system()
-	
+
 	var json_string = JSON.stringify(_save_to_dict(current_save))
 	var file = FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
 		push_error("Failed to save game: %s" % FileAccess.get_open_error())
 		return false
-	
+
 	file.store_string(json_string)
 	file.close()
-	
+
 	# 백업 생성
 	_create_backup()
-	
+
 	game_saved.emit()
 	print("💾 Game saved successfully")
 	return true
@@ -54,16 +53,16 @@ func load_game() -> SaveData:
 		print("No save file found, creating new save")
 		current_save = SaveData.new()
 		return current_save
-	
+
 	var json_string = file.get_as_text()
 	file.close()
-	
+
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error != OK:
 		push_error("Save file corrupted, trying backup")
 		return _load_backup()
-	
+
 	current_save = _dict_to_save(json.data)
 	game_loaded.emit(current_save)
 	print("📂 Game loaded successfully")
@@ -79,10 +78,10 @@ func delete_save() -> bool:
 	if err != OK:
 		push_error("Failed to delete save: %d" % err)
 		return false
-	
+
 	# 백업도 삭제
 	DirAccess.remove_absolute(BACKUP_PATH)
-	
+
 	current_save = SaveData.new()
 	print("🗑️ Save deleted")
 	return true
@@ -91,18 +90,18 @@ func delete_save() -> bool:
 func _create_backup() -> void:
 	if not FileAccess.file_exists(SAVE_PATH):
 		return
-	
+
 	var source = FileAccess.open(SAVE_PATH, FileAccess.READ)
 	if source == null:
 		return
-	
+
 	var content = source.get_as_text()
 	source.close()
-	
+
 	var backup = FileAccess.open(BACKUP_PATH, FileAccess.WRITE)
 	if backup == null:
 		return
-	
+
 	backup.store_string(content)
 	backup.close()
 
@@ -112,16 +111,16 @@ func _load_backup() -> SaveData:
 	if file == null:
 		push_error("No backup found, creating new save")
 		return SaveData.new()
-	
+
 	var json_string = file.get_as_text()
 	file.close()
-	
+
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error != OK:
 		push_error("Backup also corrupted")
 		return SaveData.new()
-	
+
 	return _dict_to_save(json.data)
 
 
@@ -162,7 +161,7 @@ func _dict_to_save(dict: Dictionary) -> SaveData:
 func get_offline_duration() -> float:
 	if current_save.offline_start_time == 0:
 		return 0.0
-	
+
 	var current_time = Time.get_unix_time_from_system()
 	return current_time - current_save.offline_start_time
 

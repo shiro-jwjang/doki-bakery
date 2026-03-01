@@ -1,0 +1,10 @@
+---
+# GDLint configuration
+
+# Ignore specific rules
+ignore:
+  - class-definitions-order
+  - unused-argument
+
+# Maximum line length
+max-line-length: 120

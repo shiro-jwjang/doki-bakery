@@ -85,7 +85,11 @@ func _create_bread_item(bread_data: BreadData) -> Control:
 	info_vbox.add_child(name_label)
 
 	var details_label = Label.new()
-	var time = ProductionManager.calculate_production_time(bread_data.id, "") if ProductionManager else 10.0
+	var time = (
+		ProductionManager.calculate_production_time(bread_data.id, "")
+		if ProductionManager
+		else 10.0
+	)
 	var price = bread_data.base_price
 	details_label.text = "%d초 | %d골드" % [int(time), price]
 	details_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
