@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://bakery_main"]
+
+[ext_resource type="Script" path="res://scripts/bakery/bakery_main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://hud" path="res://scenes/ui/hud.tscn" id="2"]
+
+[node name="BakeryMain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.95, 0.92, 0.88, 1)
+
+[node name="BakeryView" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="HUD" parent="." instance=ExtResource("2")]
+layout_mode = 1
+
+[node name="BottomBar" type="HBoxContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="BreadSelectButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+text = "🍞 빵 선택"
+
+[node name="ShopButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+text = "🛒 상점"
+
+[node name="FairyButton" type="Button" parent="BottomBar"]
+layout_mode = 2
+text = "🧚 요정"

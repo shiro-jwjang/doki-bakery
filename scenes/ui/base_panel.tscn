@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://base_pnl"]
+
+[ext_resource type="Script" path="res://scripts/ui/base_panel.gd" id="1"]
+
+[node name="BasePanel" type="PanelContainer"]
+custom_minimum_size = Vector2(128, 64)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
