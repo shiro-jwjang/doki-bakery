@@ -52,8 +52,8 @@ func spend_gold(amount: int) -> bool:
 
 
 # API 호환성용
-func remove_gold(amount: int) -> void:
-	spend_gold(amount)
+func remove_gold(amount: int) -> bool:
+	return spend_gold(amount)
 
 
 func add_experience(amount: int) -> void:
