@@ -1,0 +1,41 @@
+# Godot-specific ignores
+.import/
+.godot/
+*.translation
+
+# Godot 4+ specific
+.godot/
+
+# Imported files
+*.import
+
+# User-specific files
+user://
+
+# Build outputs
+*.apk
+*.aab
+*.ipa
+*.dSYM
+*.pck
+*.zip
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build
+builds/
+dist/
