@@ -68,6 +68,11 @@ func add_bread_crafted(count: int = 1) -> void:
 func _load_game() -> void:
 	var save = SaveManager.load_game()
 
+	# Null check for save data
+	if save == null:
+		printerr("Failed to load save data")
+		return
+
 	gold = save.gold
 	level = save.level
 	experience = save.experience

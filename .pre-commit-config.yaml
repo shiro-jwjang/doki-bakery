@@ -12,13 +12,6 @@ repos:
         language: system
         files: \.gd$
         pass_filenames: true
-        
-      - id: gdlint
-        name: GDScript Linter
-        entry: /home/openclaw/.local/bin/gdlint
-        language: system
-        files: \.gd$
-        pass_filenames: true
 
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks

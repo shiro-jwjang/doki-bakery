@@ -1,5 +1,5 @@
 extends Button
-class_name BaseButton
+class_name GameButton
 
 ## 기본 버튼 컴포넌트
 

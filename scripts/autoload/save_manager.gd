@@ -148,8 +148,15 @@ func _dict_to_save(dict: Dictionary) -> SaveData:
 	save.gold = dict.get("gold", 0)
 	save.level = dict.get("level", 1)
 	save.experience = dict.get("experience", 0)
-	save.unlocked_breads = dict.get("unlocked_breads", [])
-	save.owned_fairies = dict.get("owned_fairies", [])
+	# Convert Array to Array[String] properly
+	var breads_data = dict.get("unlocked_breads", [])
+	for bread in breads_data:
+		if bread is String:
+			save.unlocked_breads.append(bread)
+	var fairies_data = dict.get("owned_fairies", [])
+	for fairy in fairies_data:
+		if fairy is String:
+			save.owned_fairies.append(fairy)
 	save.upgrade_levels = dict.get("upgrade_levels", {})
 	save.inventory = dict.get("inventory", {})
 	save.total_breads_crafted = dict.get("total_breads_crafted", 0)
