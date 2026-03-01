@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=3 uid="uid://n8xlkn0y2j1q"]
+
+[ext_resource type="Script" path="res://scripts/components/display_slot.gd" id="1_abc123"]
+
+[node name="DisplaySlot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_abc123")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="BreadIcon" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 60)
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BreadNameLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "비어있음"
+horizontal_alignment = 1
+
+[node name="QuantityLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "x0"
+horizontal_alignment = 1
+
+[node name="PriceLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "0골드"
+horizontal_alignment = 1
+
+[node name="SellButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "판매"

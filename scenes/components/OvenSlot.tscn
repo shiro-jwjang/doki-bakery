@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://m8xlkn0y2j1q"]
+
+[ext_resource type="Script" path="res://scripts/components/oven_slot.gd" id="1_0v8yd"]
+
+[node name="OvenSlot" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0v8yd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="BreadIcon" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "비어있음"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer"]
+layout_mode = 2
+max_value = 100.0
+show_percentage = false
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "시작"
+
+[node name="CollectButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "수집"

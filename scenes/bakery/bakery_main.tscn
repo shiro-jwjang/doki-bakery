@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://bakery_main"]
+[gd_scene load_steps=6 format=3 uid="uid://bakery_main"]
 
 [ext_resource type="Script" path="res://scripts/bakery/bakery_main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://hud" path="res://scenes/ui/hud.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://m8xlkn0y2j1q" path="res://scenes/components/OvenSlot.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://n8xlkn0y2j1q" path="res://scenes/components/DisplaySlot.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://ui_base_panel" path="res://scenes/ui/base_panel.tscn" id="5"]
 
 [node name="BakeryMain" type="Control"]
 layout_mode = 3
@@ -36,6 +39,63 @@ expand_mode = 1
 [node name="HUD" parent="." instance=ExtResource("2")]
 layout_mode = 1
 
+[node name="GameArea" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -60.0
+offset_right = 160.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="LeftPanel" type="VBoxContainer" parent="GameArea"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OvenLabel" type="Label" parent="GameArea/LeftPanel"]
+layout_mode = 2
+text = "🔥 오븐"
+horizontal_alignment = 1
+
+[node name="OvenSlots" type="HBoxContainer" parent="GameArea/LeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OvenSlot0" parent="GameArea/LeftPanel/OvenSlots" instance=ExtResource("3")]
+slot_index = 0
+unique_name_in_owner = true
+
+[node name="OvenSlot1" parent="GameArea/LeftPanel/OvenSlots" instance=ExtResource("3")]
+slot_index = 1
+unique_name_in_owner = true
+
+[node name="RightPanel" type="VBoxContainer" parent="GameArea"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DisplayLabel" type="Label" parent="GameArea/RightPanel"]
+layout_mode = 2
+text = "🛒 진열대"
+horizontal_alignment = 1
+
+[node name="DisplaySlots" type="HBoxContainer" parent="GameArea/RightPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DisplaySlot0" parent="GameArea/RightPanel/DisplaySlots" instance=ExtResource("4")]
+slot_index = 0
+unique_name_in_owner = true
+
+[node name="DisplaySlot1" parent="GameArea/RightPanel/DisplaySlots" instance=ExtResource("4")]
+slot_index = 1
+unique_name_in_owner = true
+
 [node name="BottomBar" type="HBoxContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
@@ -57,3 +117,20 @@ text = "🛒 상점"
 [node name="FairyButton" type="Button" parent="BottomBar"]
 layout_mode = 2
 text = "🧚 요정"
+
+[node name="MenuContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BreadMenu" parent="MenuContainer" instance=ExtResource("5")]
+visible = false
+
+[node name="UpgradeMenu" parent="MenuContainer" instance=ExtResource("5")]
+visible = false
+
+[node name="FairyMenu" parent="MenuContainer" instance=ExtResource("5")]
+visible = false
