@@ -9,6 +9,7 @@ var breads: Dictionary = {}  # id -> BreadData
 var ingredients: Dictionary = {}  # id -> IngredientData
 var fairies: Dictionary = {}  # id -> FairyData
 var upgrades: Dictionary = {}  # id -> UpgradeData
+var balance: Dictionary = {}  # balance.json data
 
 var _data_path: String = "res://data"
 
@@ -18,6 +19,7 @@ func _ready() -> void:
 
 
 func load_all_data() -> void:
+	_load_balance()
 	_load_breads()
 	_load_ingredients()
 	_load_fairies()
@@ -44,10 +46,16 @@ func _load_breads() -> void:
 		bread.base_price = bread_dict.get("base_price", 0)
 		bread.base_craft_time = bread_dict.get("base_craft_time", 0.0)
 		bread.experience = bread_dict.get("experience", 0)
-		bread.ingredients = bread_dict.get("ingredients", [])
+
+		# Convert ingredients array to proper type
+		var ing_array: Array[Dictionary] = []
+		for ing in bread_dict.get("ingredients", []):
+			ing_array.append(ing)
+		bread.ingredients = ing_array
+
 		bread.unlock_level = bread_dict.get("unlock_level", 1)
 		bread.icon = bread_dict.get("icon", "")
-		
+
 		breads[bread.id] = bread
 
 
@@ -114,17 +122,27 @@ func _load_json(file_path: String) -> Dictionary:
 	if file == null:
 		push_error("Failed to load JSON file: %s" % file_path)
 		return {}
-	
+
 	var json_string = file.get_as_text()
 	file.close()
-	
+
 	var json = JSON.new()
 	var error = json.parse(json_string)
 	if error != OK:
 		push_error("JSON parse error at line %d: %s" % [json.get_error_line(), json.get_error_message()])
 		return {}
-	
+
 	return json.data
+
+
+func _load_balance() -> void:
+	var file_path = _data_path + "/balance.json"
+	var json_data = _load_json(file_path)
+	if json_data == null or json_data.is_empty():
+		return
+
+	balance = json_data
+	print("✅ Balance data loaded")
 
 
 func get_bread(id: String) -> BreadData:

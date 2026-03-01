@@ -12,7 +12,7 @@ class_name BreadData
 @export var base_craft_time: float  # 초 단위
 @export var experience: int
 
-@export var ingredients: Array[Dictionary]  # [{id: "flour", amount: 2}, ...]
+var ingredients: Array[Dictionary] = []  # [{id: "flour", amount: 2}, ...]
 @export var unlock_level: int
 @export var icon: String
 

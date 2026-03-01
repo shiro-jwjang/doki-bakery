@@ -5,11 +5,11 @@
     "fairyLevelBonus": 0.05,
     "upgradeBonus": 0.1,
     "breads": {
-      "croissant": { "baseTime": 5, "ingredientCost": 10, "basePrice": 5 },
-      "bread": { "baseTime": 10, "ingredientCost": 15, "basePrice": 10 },
-      "rollcake": { "baseTime": 20, "ingredientCost": 30, "basePrice": 20 },
+      "white_bread": { "baseTime": 5, "ingredientCost": 10, "basePrice": 5 },
+      "croissant": { "baseTime": 10, "ingredientCost": 15, "basePrice": 10 },
+      "chocolate_muffin": { "baseTime": 20, "ingredientCost": 30, "basePrice": 20 },
       "macaron": { "baseTime": 30, "ingredientCost": 50, "basePrice": 30 },
-      "cake": { "baseTime": 60, "ingredientCost": 100, "basePrice": 50 }
+      "strawberry_cake": { "baseTime": 60, "ingredientCost": 100, "basePrice": 50 }
     }
   },
   "pricing": {
