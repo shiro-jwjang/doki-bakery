@@ -7,13 +7,31 @@ class_name HUD
 @onready var level_label: Label = $MarginContainer/HBoxContainer/LevelLabel
 @onready var time_label: Label = $MarginContainer/HBoxContainer/TimeLabel
 
+# 의존성 주입 (테스트용)
+var _game_manager: Node = null
+
+
+func set_game_manager(game_manager: Node):
+	_game_manager = game_manager
+
+
+func _get_game_manager() -> Node:
+	if _game_manager:
+		return _game_manager
+	# Check if GameManager exists in tree (autoload)
+	if has_node("/root/GameManager"):
+		return get_node("/root/GameManager")
+	return null
+
 
 func _ready() -> void:
-	GameManager.gold_changed.connect(_on_gold_changed)
-	GameManager.level_changed.connect(_on_level_changed)
+	var gm = _get_game_manager()
+	if gm:
+		gm.gold_changed.connect(_on_gold_changed)
+		gm.level_changed.connect(_on_level_changed)
 
-	_update_gold(GameManager.gold)
-	_update_level(GameManager.level)
+		_update_gold(gm.gold)
+		_update_level(gm.level)
 
 
 func _process(_delta: float) -> void:

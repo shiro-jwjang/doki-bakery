@@ -38,6 +38,13 @@ func before_each():
 	add_child_autofree(SalesManager)
 	SalesManager._ready()
 
+	# 의존성 주입
+	ProductionManager.set_sales_manager(SalesManager)
+	ProductionManager.set_save_manager(SaveManager)
+	ProductionManager.set_data_manager(DataManager)
+	SalesManager.set_data_manager(DataManager)
+	SaveManager.set_game_manager(GameManager)
+
 	# 튜토리얼 완료 상태로 시작
 	SaveManager.current_save.tutorial_completed = true
 	SaveManager.current_save.unlocked_breads.append("white_bread")
@@ -204,9 +211,19 @@ func test_session_save_and_load():
 	GameManager.gold = 1234
 	GameManager.level = 5
 	GameManager.experience = 500
-	SaveManager.current_save.owned_fairies = ["fairy_flour", "fairy_sugar"]
+
+	# owned_fairies 직접 할당 대신 append 사용
+	SaveManager.current_save.owned_fairies.clear()
+	SaveManager.current_save.owned_fairies.append("fairy_flour")
+	SaveManager.current_save.owned_fairies.append("fairy_sugar")
+
 	SaveManager.current_save.upgrade_levels = {"oven_speed": 3, "oven_slots": 2}
-	SaveManager.current_save.unlocked_breads = ["white_bread", "croissant", "chocolate_muffin"]
+
+	# unlocked_breads 직접 할당 대신 append 사용
+	SaveManager.current_save.unlocked_breads.clear()
+	SaveManager.current_save.unlocked_breads.append("white_bread")
+	SaveManager.current_save.unlocked_breads.append("croissant")
+	SaveManager.current_save.unlocked_breads.append("chocolate_muffin")
 
 	# 세이브
 	SaveManager.save_game()
@@ -266,7 +283,7 @@ func test_production_efficiency_improves():
 
 	# 요정 고용 후
 	SaveManager.current_save.owned_fairies.append("fairy_flour")
-	var with_fairy_time = ProductionManager.calculate_production_time("white_bread", "")
+	var with_fairy_time = ProductionManager.calculate_production_time("white_bread", "fairy_flour")
 	assert_lt(with_fairy_time, upgraded_time, "Production with fairy is even faster")
 
 

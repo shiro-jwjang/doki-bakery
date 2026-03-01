@@ -22,6 +22,8 @@ class_name SaveData
 
 @export var offline_start_time: int = 0  # 방치 시간 계산용
 
+@export var tutorial_completed: bool = false
+
 
 func _init() -> void:
 	timestamp = Time.get_unix_time_from_system()

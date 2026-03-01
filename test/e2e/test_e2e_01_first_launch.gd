@@ -20,17 +20,28 @@ func before_each():
 	add_child_autofree(SaveManager)
 	SaveManager._ready()
 
-	GameManager = load("res://scripts/autoload/game_manager.gd").new()
-	add_child_autofree(GameManager)
-	GameManager._ready()
-
 	var DataManager = load("res://scripts/autoload/data_manager.gd").new()
 	add_child_autofree(DataManager)
 	DataManager.load_all_data()
 
+	GameManager = load("res://scripts/autoload/game_manager.gd").new()
+	add_child_autofree(GameManager)
+	GameManager._ready()
+
 	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
 	ProductionManager._ready()
+
+	var SalesManager = load("res://scripts/autoload/sales_manager.gd").new()
+	add_child_autofree(SalesManager)
+	SalesManager._ready()
+
+	# 의존성 주입
+	ProductionManager.set_sales_manager(SalesManager)
+	ProductionManager.set_save_manager(SaveManager)
+	ProductionManager.set_data_manager(DataManager)
+	SalesManager.set_data_manager(DataManager)
+	SaveManager.set_game_manager(GameManager)
 
 
 # ========================================

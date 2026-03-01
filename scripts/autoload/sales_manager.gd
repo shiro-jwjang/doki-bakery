@@ -6,6 +6,19 @@ signal bread_sold(bread_id, quantity, gold_earned)
 var inventory = {}  # bread_id: quantity
 var total_gold = 0
 
+# 의존성 주입 (테스트용)
+var _data_manager = null
+
+
+func set_data_manager(data_manager: Node):
+	_data_manager = data_manager
+
+
+func _get_data_manager() -> Node:
+	if _data_manager:
+		return _data_manager
+	return DataManager
+
 
 func _ready():
 	# Initial gold from SaveData (if exists)
@@ -29,7 +42,12 @@ func sell_bread(bread_id: String, quantity: int = 1):
 		printerr("SalesManager: Not enough ", bread_id, " in inventory to sell.")
 		return
 
-	var price_info = DataManager.balance.production.breads[bread_id]
+	var data_mgr = _get_data_manager()
+	if not data_mgr or not data_mgr.balance:
+		push_error("SalesManager: DataManager not available")
+		return
+
+	var price_info = data_mgr.balance.production.breads[bread_id]
 	var unit_price = calculate_sell_price(bread_id)
 	var total_price = unit_price * quantity
 
@@ -52,16 +70,17 @@ func sell_bread(bread_id: String, quantity: int = 1):
 
 
 func calculate_sell_price(bread_id: String) -> float:
-	if not DataManager or not DataManager.balance or not DataManager.balance.production:
+	var data_mgr = _get_data_manager()
+	if not data_mgr or not data_mgr.balance or not data_mgr.balance.production:
 		push_error("SalesManager: DataManager.balance not loaded")
 		return 10.0  # Default fallback price
 
-	if not DataManager.balance.production.breads.has(bread_id):
+	if not data_mgr.balance.production.breads.has(bread_id):
 		push_error("SalesManager: Unknown bread_id: " + bread_id)
 		return 10.0
 
-	var base_data = DataManager.balance.production.breads[bread_id]
-	var multiplier = DataManager.balance.pricing.ingredientMultiplier
+	var base_data = data_mgr.balance.production.breads[bread_id]
+	var multiplier = data_mgr.balance.pricing.ingredientMultiplier
 
 	# Formula: SellPrice = IngredientCost * 2.5 + (BasePrice * (1 + LevelBonus))
 	var price = base_data.ingredientCost * multiplier + base_data.basePrice

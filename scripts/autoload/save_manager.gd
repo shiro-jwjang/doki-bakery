@@ -12,6 +12,22 @@ const AUTO_SAVE_INTERVAL := 60.0  # 60초
 var current_save: SaveData = null
 var _auto_save_timer: float = 0.0
 
+# 의존성 주입 (테스트용)
+var _game_manager = null
+
+
+func set_game_manager(game_manager: Node):
+	_game_manager = game_manager
+
+
+func _get_game_manager() -> Node:
+	if _game_manager:
+		return _game_manager
+	# Check if GameManager exists in tree (autoload)
+	if has_node("/root/GameManager"):
+		return get_node("/root/GameManager")
+	return null
+
 
 func _ready() -> void:
 	current_save = SaveData.new()
@@ -27,6 +43,13 @@ func _process(delta: float) -> void:
 func save_game() -> bool:
 	if current_save == null:
 		current_save = SaveData.new()
+
+	# GameManager 데이터 동기화
+	var gm = _get_game_manager()
+	if gm:
+		current_save.gold = gm.gold
+		current_save.level = gm.level
+		current_save.experience = gm.experience
 
 	current_save.timestamp = Time.get_unix_time_from_system()
 
@@ -64,6 +87,14 @@ func load_game() -> SaveData:
 		return _load_backup()
 
 	current_save = _dict_to_save(json.data)
+
+	# GameManager 데이터 복원
+	var gm = _get_game_manager()
+	if gm:
+		gm.gold = current_save.gold
+		gm.level = current_save.level
+		gm.experience = current_save.experience
+
 	game_loaded.emit(current_save)
 	print("📂 Game loaded successfully")
 	return current_save
@@ -137,7 +168,8 @@ func _save_to_dict(save: SaveData) -> Dictionary:
 		"inventory": save.inventory,
 		"total_breads_crafted": save.total_breads_crafted,
 		"total_gold_earned": save.total_gold_earned,
-		"offline_start_time": save.offline_start_time
+		"offline_start_time": save.offline_start_time,
+		"tutorial_completed": save.tutorial_completed
 	}
 
 
@@ -162,6 +194,7 @@ func _dict_to_save(dict: Dictionary) -> SaveData:
 	save.total_breads_crafted = dict.get("total_breads_crafted", 0)
 	save.total_gold_earned = dict.get("total_gold_earned", 0)
 	save.offline_start_time = dict.get("offline_start_time", 0)
+	save.tutorial_completed = dict.get("tutorial_completed", false)
 	return save
 
 

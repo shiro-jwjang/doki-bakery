@@ -38,6 +38,13 @@ func before_each():
 	add_child_autofree(SalesManager)
 	SalesManager._ready()
 
+	# 의존성 주입
+	ProductionManager.set_sales_manager(SalesManager)
+	ProductionManager.set_save_manager(SaveManager)
+	ProductionManager.set_data_manager(DataManager)
+	SalesManager.set_data_manager(DataManager)
+	SaveManager.set_game_manager(GameManager)
+
 	# 기본 빵 해금
 	SaveManager.current_save.unlocked_breads.append("white_bread")
 	SaveManager.current_save.unlocked_breads.append("croissant")
@@ -221,10 +228,10 @@ func test_mixed_bread_sales():
 	SalesManager.sell_bread("croissant", 2)
 
 	# 식빵: 30 * 3 = 90
-	# 크로와상: 47.5 ≈ 47 or 48
+	# 크로와상: 47.5 * 2 = 95
 	var total = SalesManager.get_total_gold()
-	assert_gt(total, 130, "Should have at least 130 gold")
-	assert_lt(total, 150, "Should have less than 150 gold")
+	assert_gt(total, 180, "Should have at least 180 gold")
+	assert_lt(total, 200, "Should have less than 200 gold")
 
 
 # ========================================

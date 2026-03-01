@@ -11,6 +11,13 @@ var gold: int = 0:
 		gold = value
 		gold_changed.emit(gold)
 
+# API 호환성용 (테스트 및 일부 UI용)
+var player_gold: int:
+	get:
+		return gold
+	set(value):
+		gold = value
+
 var level: int = 1:
 	set(value):
 		level = value
@@ -44,20 +51,29 @@ func spend_gold(amount: int) -> bool:
 	return true
 
 
+# API 호환성용
+func remove_gold(amount: int) -> void:
+	spend_gold(amount)
+
+
 func add_experience(amount: int) -> void:
 	experience += amount
 	_check_level_up()
 	_save_game()
 
 
+func calculate_experience_needed(for_level: int) -> int:
+	# 레벨당 필요 경험치: 100 * 1.5^(level-1)
+	return int(100 * pow(1.5, for_level - 1))
+
+
 func _check_level_up() -> void:
-	# 레벨당 필요 경험치: level * 100
-	var required_exp = level * 100
+	var required_exp = calculate_experience_needed(level)
 	while experience >= required_exp:
 		experience -= required_exp
 		level += 1
 		print("🎉 Level up! Now level %d" % level)
-		required_exp = level * 100
+		required_exp = calculate_experience_needed(level)
 
 
 func add_bread_crafted(count: int = 1) -> void:
@@ -86,11 +102,8 @@ func _load_game() -> void:
 
 
 func _save_game() -> void:
-	SaveManager.current_save.gold = gold
-	SaveManager.current_save.level = level
-	SaveManager.current_save.experience = experience
-	SaveManager.current_save.total_breads_crafted = total_breads_crafted
-	SaveManager.current_save.total_gold_earned = total_gold_earned
+	# SaveManager.current_save 필드 채우기는 SaveManager.save_game() 내부에서 수행됨
+	SaveManager.save_game()
 
 
 func _calculate_offline_duration(duration_seconds: float) -> void:
