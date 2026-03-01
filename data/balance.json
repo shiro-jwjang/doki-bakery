@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "production": {
+    "baseTimeMultiplier": 0.2,
+    "fairyLevelBonus": 0.05,
+    "upgradeBonus": 0.1,
+    "breads": {
+      "croissant": { "baseTime": 5, "ingredientCost": 10, "basePrice": 5 },
+      "bread": { "baseTime": 10, "ingredientCost": 15, "basePrice": 10 },
+      "rollcake": { "baseTime": 20, "ingredientCost": 30, "basePrice": 20 },
+      "macaron": { "baseTime": 30, "ingredientCost": 50, "basePrice": 30 },
+      "cake": { "baseTime": 60, "ingredientCost": 100, "basePrice": 50 }
+    }
+  },
+  "pricing": {
+    "ingredientMultiplier": 2.5,
+    "levelBonus": 0.1
+  },
+  "upgrades": {
+    "costMultiplier": 1.5,
+    "baseCosts": {
+      "oven": 100,
+      "display": 150,
+      "fairyHire": 500
+    }
+  },
+  "offline": {
+    "rewardMultiplier": 0.5,
+    "maxOfflineHours": 24
+  },
+  "milestones": {
+    "5min": { "target": 100, "description": "첫 빵 판매" },
+    "30min": { "target": 500, "description": "요정 1명 고용" },
+    "1hour": { "target": 1000, "description": "두 번째 빵 해금" },
+    "1day": { "target": 10000, "description": "기본 업그레이드 완료" },
+    "1week": { "target": 50000, "description": "모든 기본 빵 해금" }
+  }
+}

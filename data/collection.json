@@ -1,0 +1,122 @@
+{
+  "version": "1.0.0",
+  "collections": {
+    "breads": {
+      "name": "빵 도감",
+      "description": "모든 빵을 수집하세요",
+      "items": [
+        {
+          "id": "croissant",
+          "name": "크루아상",
+          "description": "바삭한 크루아상. 프랑스의 대표 빵.",
+          "rarity": "common",
+          "unlockCondition": { "type": "default" }
+        },
+        {
+          "id": "bread",
+          "name": "식빵",
+          "description": "기본 중의 기본. 부드러운 식빵.",
+          "rarity": "common",
+          "unlockCondition": { "type": "gold", "value": 500 }
+        },
+        {
+          "id": "rollcake",
+          "name": "롤케이크",
+          "description": "달콤한 크림이 듬뿍 들어간 롤케이크.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "gold", "value": 2000 }
+        },
+        {
+          "id": "macaron",
+          "name": "마카롱",
+          "description": "알록달록한 프랑스 디저트.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "gold", "value": 5000 }
+        },
+        {
+          "id": "cake",
+          "name": "딸기 케이크",
+          "description": "신선한 딸기가 올라간 케이크.",
+          "rarity": "epic",
+          "unlockCondition": { "type": "gold", "value": 15000 }
+        },
+        {
+          "id": "sakura_bread",
+          "name": "벚꽃 모찌",
+          "description": "봄의 정취를 담은 계절 빵.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "season", "value": "spring" }
+        },
+        {
+          "id": "watermelon_cake",
+          "name": "수박 케이크",
+          "description": "시원한 여름 디저트.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "season", "value": "summer" }
+        },
+        {
+          "id": "maple_cookie",
+          "name": "단풍 쿠키",
+          "description": "가을을 담은 바삭한 쿠키.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "season", "value": "autumn" }
+        },
+        {
+          "id": "snowman_bread",
+          "name": "눈사람 빵",
+          "description": "겨울 한정 귀여운 빵.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "season", "value": "winter" }
+        },
+        {
+          "id": "golden_croissant",
+          "name": "황금 크루아상",
+          "description": "황금빛으로 빛나는 전설의 크루아상.",
+          "rarity": "legendary",
+          "unlockCondition": { "type": "achievement", "value": "prod_005" }
+        }
+      ]
+    },
+    "fairies": {
+      "name": "요정 도감",
+      "description": "모든 요정을 만나보세요",
+      "items": [
+        {
+          "id": "fairy_default",
+          "name": "파티시에 요정",
+          "description": "기본 요정. 성실하고 일을 잘해요.",
+          "rarity": "common",
+          "unlockCondition": { "type": "default" }
+        },
+        {
+          "id": "fairy_strawberry",
+          "name": "딸기 요정",
+          "description": "발랄한 딸기 요정. 달콤한 빵을 좋아해요.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "gold", "value": 3000 }
+        },
+        {
+          "id": "fairy_chocolate",
+          "name": "초코 요정",
+          "description": "차분한 초코 요정. 진한 맛을 선호해요.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "gold", "value": 5000 }
+        },
+        {
+          "id": "fairy_mint",
+          "name": "민트 요정",
+          "description": "청순한 민트 요정. 상큼한 빵을 좋아해요.",
+          "rarity": "rare",
+          "unlockCondition": { "type": "gold", "value": 8000 }
+        }
+      ]
+    }
+  },
+  "rarityOrder": ["common", "rare", "epic", "legendary"],
+  "rarityColors": {
+    "common": "#9CA3AF",
+    "rare": "#3B82F6",
+    "epic": "#8B5CF6",
+    "legendary": "#F59E0B"
+  }
+}

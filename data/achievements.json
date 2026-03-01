@@ -1,0 +1,135 @@
+{
+  "version": "1.0.0",
+  "achievements": {
+    "production": [
+      {
+        "id": "prod_001",
+        "name": "첫 빵",
+        "description": "빵을 처음으로 굽다",
+        "condition": { "type": "totalProduction", "value": 1 },
+        "reward": { "gold": 10 },
+        "hidden": false
+      },
+      {
+        "id": "prod_002",
+        "name": "빵 수습생",
+        "description": "빵 100개 굽기",
+        "condition": { "type": "totalProduction", "value": 100 },
+        "reward": { "gold": 100 },
+        "hidden": false
+      },
+      {
+        "id": "prod_003",
+        "name": "빵 장인",
+        "description": "빵 1,000개 굽기",
+        "condition": { "type": "totalProduction", "value": 1000 },
+        "reward": { "gold": 500, "gem": 5 },
+        "hidden": false
+      },
+      {
+        "id": "prod_004",
+        "name": "빵 마스터",
+        "description": "빵 10,000개 굽기",
+        "condition": { "type": "totalProduction", "value": 10000 },
+        "reward": { "gold": 2000, "gem": 20 },
+        "hidden": false
+      },
+      {
+        "id": "prod_005",
+        "name": "전설의 베이커리",
+        "description": "빵 100,000개 굽기",
+        "condition": { "type": "totalProduction", "value": 100000 },
+        "reward": { "gold": 10000, "gem": 100, "title": "전설의 베이커" },
+        "hidden": false
+      }
+    ],
+    "sales": [
+      {
+        "id": "sale_001",
+        "name": "첫 판매",
+        "description": "빵을 처음으로 팔다",
+        "condition": { "type": "totalSales", "value": 1 },
+        "reward": { "gold": 10 },
+        "hidden": false
+      },
+      {
+        "id": "sale_002",
+        "name": "장사 시작",
+        "description": "누적 판매액 1,000G 달성",
+        "condition": { "type": "totalGold", "value": 1000 },
+        "reward": { "gold": 100 },
+        "hidden": false
+      },
+      {
+        "id": "sale_003",
+        "name": "인기 베이커리",
+        "description": "누적 판매액 10,000G 달성",
+        "condition": { "type": "totalGold", "value": 10000 },
+        "reward": { "gold": 500, "gem": 5 },
+        "hidden": false
+      },
+      {
+        "id": "sale_004",
+        "name": "프랜차이즈",
+        "description": "누적 판매액 100,000G 달성",
+        "condition": { "type": "totalGold", "value": 100000 },
+        "reward": { "gold": 2000, "gem": 20 },
+        "hidden": false
+      }
+    ],
+    "fairies": [
+      {
+        "id": "fairy_001",
+        "name": "첫 동료",
+        "description": "요정을 처음 고용하다",
+        "condition": { "type": "totalFairies", "value": 1 },
+        "reward": { "gold": 50 },
+        "hidden": false
+      },
+      {
+        "id": "fairy_002",
+        "name": "요정 친구",
+        "description": "요정 3명 고용",
+        "condition": { "type": "totalFairies", "value": 3 },
+        "reward": { "gold": 200 },
+        "hidden": false
+      },
+      {
+        "id": "fairy_003",
+        "name": "요정 파티",
+        "description": "요정 10명 고용",
+        "condition": { "type": "totalFairies", "value": 10 },
+        "reward": { "gold": 1000, "gem": 10 },
+        "hidden": false
+      }
+    ],
+    "collection": [
+      {
+        "id": "coll_001",
+        "name": "빵 수집가",
+        "description": "모든 기본 빵 해금",
+        "condition": { "type": "unlockedBreads", "value": 5 },
+        "reward": { "gold": 500 },
+        "hidden": false
+      },
+      {
+        "id": "coll_002",
+        "name": "요정 수집가",
+        "description": "모든 요정 해금",
+        "condition": { "type": "unlockedFairies", "value": 10 },
+        "reward": { "gold": 1000, "gem": 20 },
+        "hidden": true
+      }
+    ],
+    "hidden": [
+      {
+        "id": "hidden_001",
+        "name": "???",
+        "description": "비밀 업적",
+        "condition": { "type": "secret", "value": 1 },
+        "reward": { "gem": 50, "title": "비밀 발견자" },
+        "hidden": true
+      }
+    ]
+  }
+}
