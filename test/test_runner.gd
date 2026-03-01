@@ -2,17 +2,15 @@ extends Node
 
 ## Simple test runner for TDD without GUT dependency
 
-var test_results = {
-	"passed": 0,
-	"failed": 0,
-	"errors": []
-}
+var test_results = {"passed": 0, "failed": 0, "errors": []}
+
 
 func _ready():
 	print("=== Running Doki Bakery Tests ===")
 	run_all_tests()
 	print_tests_summary()
 	get_tree().quit()
+
 
 func run_all_tests():
 	# Test DataManager
@@ -26,6 +24,7 @@ func run_all_tests():
 	# Integration tests
 	test_integration()
 
+
 func assert_true(condition, message):
 	if condition:
 		test_results.passed += 1
@@ -34,6 +33,7 @@ func assert_true(condition, message):
 		test_results.failed += 1
 		test_results.errors.append("✗ FAILED: " + message)
 		print("  ✗ FAILED: " + message)
+
 
 func assert_false(condition, message):
 	if not condition:
@@ -44,14 +44,18 @@ func assert_false(condition, message):
 		test_results.errors.append("✗ FAILED: " + message)
 		print("  ✗ FAILED: " + message)
 
+
 func assert_eq(a, b, message):
 	if a == b:
 		test_results.passed += 1
 		print("  ✓ " + message)
 	else:
 		test_results.failed += 1
-		test_results.errors.append("✗ FAILED: " + message + " (expected: " + str(b) + ", got: " + str(a) + ")")
+		test_results.errors.append(
+			"✗ FAILED: " + message + " (expected: " + str(b) + ", got: " + str(a) + ")"
+		)
 		print("  ✗ FAILED: " + message + " (expected: " + str(b) + ", got: " + str(a) + ")")
+
 
 func assert_not_null(value, message):
 	if value != null:
@@ -61,6 +65,7 @@ func assert_not_null(value, message):
 		test_results.failed += 1
 		test_results.errors.append("✗ FAILED: " + message)
 		print("  ✗ FAILED: " + message)
+
 
 func print_tests_summary():
 	print("\n=== Test Summary ===")
@@ -74,6 +79,7 @@ func print_tests_summary():
 	else:
 		print("\n✅ All tests PASSED")
 
+
 func test_data_manager():
 	print("\n--- DataManager Tests ---")
 	var dm = DataManager  # Use autoload instance
@@ -83,7 +89,10 @@ func test_data_manager():
 	assert_not_null(dm.balance.pricing, "Pricing config exists")
 	assert_eq(dm.balance.production.baseTimeMultiplier, 0.2, "Base time multiplier is 0.2")
 	assert_true(dm.balance.production.breads.has("white_bread"), "Has white_bread config")
-	assert_eq(dm.balance.production.breads.white_bread.baseTime, 5.0, "white_bread base time is 5.0")
+	assert_eq(
+		dm.balance.production.breads.white_bread.baseTime, 5.0, "white_bread base time is 5.0"
+	)
+
 
 func test_production_manager():
 	print("\n--- ProductionManager Tests ---")
@@ -102,6 +111,7 @@ func test_production_manager():
 	var cake_duration = pm.calculate_production_time("strawberry_cake", "")
 	assert_eq(cake_duration, 60.0, "strawberry_cake takes 60 seconds")
 
+
 func test_sales_manager():
 	print("\n--- SalesManager Tests ---")
 	var sm = SalesManager  # Use autoload instance
@@ -118,6 +128,7 @@ func test_sales_manager():
 	sm.sell_bread("white_bread", 1)
 	assert_eq(sm.get_total_gold(), 30, "Has 30 gold after selling")
 	assert_eq(sm.inventory["white_bread"], 0, "No white_bread left")
+
 
 func test_game_manager():
 	print("\n--- GameManager Tests ---")
@@ -137,6 +148,7 @@ func test_game_manager():
 
 	gm.add_experience(100)
 	assert_eq(gm.player_level, 2, "Leveled up to 2")
+
 
 func test_integration():
 	print("\n--- Integration Tests ---")

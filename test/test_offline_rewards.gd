@@ -5,6 +5,7 @@ extends GutTest
 var SaveManager: Node
 var GameManager: Node
 
+
 func before_each():
 	# Setup SaveManager
 	SaveManager = load("res://scripts/autoload/save_manager.gd").new()
@@ -16,6 +17,7 @@ func before_each():
 	add_child_autofree(GameManager)
 	GameManager._ready()
 
+
 func test_save_manager_stores_last_save_time():
 	# SaveManager should store the current time when saving
 	var before_save = Time.get_unix_time_from_system()
@@ -24,6 +26,7 @@ func test_save_manager_stores_last_save_time():
 	var saved_time = SaveManager.get_last_save_time()
 
 	assert_gt(saved_time, before_save - 1, "Save time should be recent")
+
 
 func test_save_manager_calculates_offline_duration():
 	# Simulate saving, then checking offline duration later
@@ -36,6 +39,7 @@ func test_save_manager_calculates_offline_duration():
 
 	assert_ge(offline_duration, 0, "Offline duration should be non-negative")
 
+
 func test_offline_duration_is_capped_at_24_hours():
 	# The offline duration should be capped at 24 hours
 	# This is tested by checking the balance.json settings
@@ -46,6 +50,7 @@ func test_offline_duration_is_capped_at_24_hours():
 	if balance and balance.has("offline"):
 		var max_hours = balance.offline.get("maxOfflineHours", 24)
 		assert_eq(max_hours, 24, "Should cap offline rewards at 24 hours")
+
 
 func test_game_manager_calculates_offline_rewards():
 	# GameManager should calculate rewards based on offline duration
@@ -60,6 +65,7 @@ func test_game_manager_calculates_offline_rewards():
 
 	assert_gt(expected_gold, 0, "Should calculate positive offline rewards")
 
+
 func test_offline_rewards_use_multiplier():
 	# Offline rewards have a multiplier (0.5 by default)
 	# This affects the efficiency of longer offline periods
@@ -69,6 +75,7 @@ func test_offline_rewards_use_multiplier():
 		var multiplier = balance.offline.get("rewardMultiplier", 0.5)
 		assert_gt(multiplier, 0, "Should have a reward multiplier")
 		assert_le(multiplier, 1.0, "Multiplier should be <= 1.0")
+
 
 func test_game_manager_adds_offline_gold():
 	watch_signals(GameManager)
@@ -80,8 +87,8 @@ func test_game_manager_adds_offline_gold():
 	GameManager.add_gold(100)  # Simulated offline reward
 
 	assert_gt(GameManager.player_gold, initial_gold, "Gold should increase")
-	assert_signal_emitted(GameManager, "gold_changed",
-		"Should emit gold_changed signal")
+	assert_signal_emitted(GameManager, "gold_changed", "Should emit gold_changed signal")
+
 
 func test_offline_rewards_scale_with_level():
 	# Higher levels should earn more gold per second offline
@@ -89,6 +96,7 @@ func test_offline_rewards_scale_with_level():
 	var level_5_rate = 5 * 0.1  # level 5
 
 	assert_gt(level_5_rate, level_1_rate, "Higher levels should earn more")
+
 
 func test_save_manager_persists_player_progress():
 	# SaveManager should persist gold, level, experience
@@ -103,12 +111,14 @@ func test_save_manager_persists_player_progress():
 	assert_eq(SaveManager.current_save.level, GameManager.player_level, "Level should be saved")
 	assert_eq(SaveManager.current_save.experience, 50, "Experience should be saved")
 
+
 func test_game_manager_loads_saved_data():
 	# GameManager should load data from SaveManager on startup
 	# This is tested indirectly by checking GameManager._ready()
 
 	var loaded_save = SaveManager.load_game()
 	assert_not_null(loaded_save, "Should be able to load saved game")
+
 
 func test_offline_rewards_are_not_duplicated():
 	# Offline rewards should only be applied once per session
@@ -122,6 +132,7 @@ func test_offline_rewards_are_not_duplicated():
 	# Both should return the same duration (or very close)
 	# because no save happened in between
 	assert_abs_diff(duration1, duration2, 1.0, "Durations should be similar")
+
 
 func test_8_hour_full_efficiency():
 	# According to balance.json, 8 hours have 100% efficiency

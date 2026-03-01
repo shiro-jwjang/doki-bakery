@@ -7,6 +7,7 @@ var ProductionManager: Node
 var SalesManager: Node
 var DataManager: Node
 
+
 func before_each():
 	DataManager = load("res://scripts/autoload/data_manager.gd").new()
 	add_child_autofree(DataManager)
@@ -22,6 +23,7 @@ func before_each():
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
 	GameManager._ready()
+
 
 func test_full_baking_and_sales_cycle():
 	# 1. Start baking
@@ -45,6 +47,7 @@ func test_full_baking_and_sales_cycle():
 	# 5. Check gold
 	assert_eq(SalesManager.get_total_gold(), 30, "Should have 30 gold from selling")
 
+
 func test_multiple_production_cycles():
 	# Bake white_bread
 	ProductionManager.start_baking(0, "white_bread")
@@ -60,6 +63,7 @@ func test_multiple_production_cycles():
 
 	# Should have both breads in inventory
 	assert_eq(SalesManager.inventory.size(), 2, "Should have 2 different bread types")
+
 
 func test_production_to_sales_gold_flow():
 	# Start with 0 gold
@@ -82,6 +86,7 @@ func test_production_to_sales_gold_flow():
 	# white_bread: 30g, strawberry_cake: 300g = 330g total
 	assert_eq(SalesManager.get_total_gold(), 330, "Should have 330 gold total")
 
+
 func test_gold_sync_between_managers():
 	watch_signals(GameManager)
 	GameManager.add_gold(100)
@@ -89,10 +94,12 @@ func test_gold_sync_between_managers():
 	# GameManager's gold should be updated
 	assert_eq(GameManager.player_gold, 100, "GameManager should have 100 gold")
 
+
 func test_level_up_from_bread_sales():
 	# Each bread gives experience (not yet implemented in ProductionManager)
 	# This test will be expanded when experience gain from baking is added
 	pass
+
 
 func test_inventory_limits():
 	# Add many breads to inventory
@@ -106,12 +113,14 @@ func test_inventory_limits():
 
 	assert_eq(SalesManager.inventory["white_bread"], 50, "Should have 50 white_breads left")
 
+
 func test_production_time_calculation_consistency():
 	# Test that production time calculation is consistent
 	var time1 = ProductionManager.calculate_production_time("white_bread", "")
 	var time2 = ProductionManager.calculate_production_time("white_bread", "")
 
 	assert_eq(time1, time2, "Production time should be consistent")
+
 
 func test_price_calculation_consistency():
 	# Test that price calculation is consistent

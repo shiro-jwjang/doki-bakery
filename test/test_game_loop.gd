@@ -8,6 +8,7 @@ var SalesManager: Node
 var GameManager: Node
 var DataManager: Node
 
+
 func before_each():
 	# Setup DataManager
 	DataManager = load("res://scripts/autoload/data_manager.gd").new()
@@ -34,12 +35,15 @@ func before_each():
 	GameManager.player_gold = 0
 	ProductionManager.active_baking.clear()
 
+
 func test_complete_production_to_sales_cycle():
 	# Start: Begin baking
 	ProductionManager.start_baking(0, "white_bread")
 
 	assert_true(ProductionManager.active_baking.has(0), "Should have active baking")
-	assert_eq(ProductionManager.active_baking[0].bread_id, "white_bread", "Should be baking white_bread")
+	assert_eq(
+		ProductionManager.active_baking[0].bread_id, "white_bread", "Should be baking white_bread"
+	)
 
 	# Middle: Simulate baking completion
 	ProductionManager.active_baking[0].start_time = Time.get_unix_time_from_system() - 100
@@ -56,13 +60,14 @@ func test_complete_production_to_sales_cycle():
 	assert_eq(SalesManager.inventory["white_bread"], 0, "Should have no white_bread left")
 	assert_gt(SalesManager.total_gold, 0, "Should have earned gold")
 
+
 func test_baking_emits_signals():
 	watch_signals(ProductionManager)
 
 	ProductionManager.start_baking(0, "white_bread")
 
-	assert_signal_emitted(ProductionManager, "baking_started",
-		"Should emit baking_started signal")
+	assert_signal_emitted(ProductionManager, "baking_started", "Should emit baking_started signal")
+
 
 func test_sales_emits_signals():
 	watch_signals(SalesManager)
@@ -73,8 +78,8 @@ func test_sales_emits_signals():
 	# Then sell
 	SalesManager.sell_bread("white_bread", 1)
 
-	assert_signal_emitted(SalesManager, "bread_sold",
-		"Should emit bread_sold signal")
+	assert_signal_emitted(SalesManager, "bread_sold", "Should emit bread_sold signal")
+
 
 func test_multiple_breads_can_be_sold():
 	# Bake and sell multiple breads
@@ -89,6 +94,7 @@ func test_multiple_breads_can_be_sold():
 	# white_bread: 30 * 2 = 60, croissant: ~40 = ~100 total
 	assert_gt(total_gold, 90, "Should have earned significant gold")
 
+
 func test_gold_updates_game_manager():
 	watch_signals(GameManager)
 
@@ -97,8 +103,8 @@ func test_gold_updates_game_manager():
 	GameManager.add_gold(50)
 
 	assert_gt(GameManager.player_gold, initial_gold, "GameManager gold should increase")
-	assert_signal_emitted(GameManager, "gold_changed",
-		"Should emit gold_changed signal")
+	assert_signal_emitted(GameManager, "gold_changed", "Should emit gold_changed signal")
+
 
 func test_experience_gained_from_selling():
 	# This would require SalesManager to emit experience signals
@@ -108,8 +114,8 @@ func test_experience_gained_from_selling():
 	GameManager.add_experience(50)
 
 	assert_eq(GameManager.player_experience, 50, "Should have 50 experience")
-	assert_signal_emitted(GameManager, "experience_gained",
-		"Should emit experience_gained signal")
+	assert_signal_emitted(GameManager, "experience_gained", "Should emit experience_gained signal")
+
 
 func test_level_up_from_experience():
 	watch_signals(GameManager)
@@ -117,8 +123,8 @@ func test_level_up_from_experience():
 	GameManager.add_experience(100)  # Enough for level up
 
 	assert_eq(GameManager.player_level, 2, "Should be at level 2")
-	assert_signal_emitted(GameManager, "level_changed",
-		"Should emit level_changed signal")
+	assert_signal_emitted(GameManager, "level_changed", "Should emit level_changed signal")
+
 
 func test_production_manager_updates_slots():
 	# Test that multiple slots work independently
@@ -128,6 +134,7 @@ func test_production_manager_updates_slots():
 	assert_eq(ProductionManager.active_baking.size(), 2, "Should have 2 active bakings")
 	assert_true(ProductionManager.active_baking.has(0), "Slot 0 should be active")
 	assert_true(ProductionManager.active_baking.has(1), "Slot 1 should be active")
+
 
 func test_sales_manager_inventory_tracking():
 	# Add multiple breads of different types
@@ -143,6 +150,7 @@ func test_sales_manager_inventory_tracking():
 
 	assert_eq(SalesManager.inventory["white_bread"], 1, "Should have 1 white_bread left")
 	assert_eq(SalesManager.inventory["croissant"], 1, "Should have 1 croissant left")
+
 
 func test_game_loop_persistence():
 	# Verify that data flows through the entire loop
