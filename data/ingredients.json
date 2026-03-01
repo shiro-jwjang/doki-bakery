@@ -1,0 +1,60 @@
+{
+  "ingredients": [
+    {
+      "id": "flour",
+      "name": "밀가루",
+      "name_en": "Flour",
+      "base_price": 5,
+      "max_stack": 999
+    },
+    {
+      "id": "sugar",
+      "name": "설탕",
+      "name_en": "Sugar",
+      "base_price": 3,
+      "max_stack": 999
+    },
+    {
+      "id": "butter",
+      "name": "버터",
+      "name_en": "Butter",
+      "base_price": 8,
+      "max_stack": 999
+    },
+    {
+      "id": "egg",
+      "name": "계란",
+      "name_en": "Egg",
+      "base_price": 6,
+      "max_stack": 999
+    },
+    {
+      "id": "milk",
+      "name": "우유",
+      "name_en": "Milk",
+      "base_price": 4,
+      "max_stack": 999
+    },
+    {
+      "id": "chocolate",
+      "name": "초콜릿",
+      "name_en": "Chocolate",
+      "base_price": 15,
+      "max_stack": 999
+    },
+    {
+      "id": "strawberry",
+      "name": "딸기",
+      "name_en": "Strawberry",
+      "base_price": 20,
+      "max_stack": 999
+    },
+    {
+      "id": "cream",
+      "name": "크림",
+      "name_en": "Cream",
+      "base_price": 12,
+      "max_stack": 999
+    }
+  ]
+}

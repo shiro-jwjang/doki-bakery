@@ -1,0 +1,55 @@
+{
+  "fairies": [
+    {
+      "id": "strawberry_fairy",
+      "name": "딸기 요정",
+      "name_en": "Strawberry Fairy",
+      "description": "딸기 관련 빵 제작 속도 +20%",
+      "ability": {
+        "type": "craft_speed",
+        "category": "cake",
+        "bonus": 0.2
+      },
+      "unlock_condition": {
+        "type": "level",
+        "value": 3
+      },
+      "cost": 500,
+      "icon": "res://assets/sprites/fairy/strawberry_fairy.png"
+    },
+    {
+      "id": "chocolate_fairy",
+      "name": "초코 요정",
+      "name_en": "Chocolate Fairy",
+      "description": "초콜릿 빵 판매가 +15%",
+      "ability": {
+        "type": "profit_bonus",
+        "category": "chocolate",
+        "bonus": 0.15
+      },
+      "unlock_condition": {
+        "type": "level",
+        "value": 4
+      },
+      "cost": 750,
+      "icon": "res://assets/sprites/fairy/chocolate_fairy.png"
+    },
+    {
+      "id": "mint_fairy",
+      "name": "민트 요정",
+      "name_en": "Mint Fairy",
+      "description": "전체 제작 속도 +10%",
+      "ability": {
+        "type": "craft_speed",
+        "category": "all",
+        "bonus": 0.1
+      },
+      "unlock_condition": {
+        "type": "level",
+        "value": 5
+      },
+      "cost": 1000,
+      "icon": "res://assets/sprites/fairy/mint_fairy.png"
+    }
+  ]
+}

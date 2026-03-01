@@ -1,0 +1,88 @@
+{
+  "breads": [
+    {
+      "id": "white_bread",
+      "name": "식빵",
+      "name_en": "White Bread",
+      "category": "basic",
+      "tier": 1,
+      "base_price": 10,
+      "base_craft_time": 30,
+      "experience": 5,
+      "ingredients": [
+        {"id": "flour", "amount": 2},
+        {"id": "sugar", "amount": 1}
+      ],
+      "unlock_level": 1,
+      "icon": "res://assets/sprites/bread/white_bread.png"
+    },
+    {
+      "id": "croissant",
+      "name": "크루아상",
+      "name_en": "Croissant",
+      "category": "pastry",
+      "tier": 2,
+      "base_price": 25,
+      "base_craft_time": 60,
+      "experience": 12,
+      "ingredients": [
+        {"id": "flour", "amount": 2},
+        {"id": "butter", "amount": 2}
+      ],
+      "unlock_level": 2,
+      "icon": "res://assets/sprites/bread/croissant.png"
+    },
+    {
+      "id": "chocolate_muffin",
+      "name": "초코 머핀",
+      "name_en": "Chocolate Muffin",
+      "category": "cake",
+      "tier": 3,
+      "base_price": 40,
+      "base_craft_time": 120,
+      "experience": 20,
+      "ingredients": [
+        {"id": "flour", "amount": 2},
+        {"id": "sugar", "amount": 2},
+        {"id": "chocolate", "amount": 1}
+      ],
+      "unlock_level": 3,
+      "icon": "res://assets/sprites/bread/chocolate_muffin.png"
+    },
+    {
+      "id": "strawberry_cake",
+      "name": "딸기 케이크",
+      "name_en": "Strawberry Cake",
+      "category": "cake",
+      "tier": 4,
+      "base_price": 100,
+      "base_craft_time": 300,
+      "experience": 50,
+      "ingredients": [
+        {"id": "flour", "amount": 3},
+        {"id": "sugar", "amount": 2},
+        {"id": "strawberry", "amount": 2},
+        {"id": "cream", "amount": 1}
+      ],
+      "unlock_level": 5,
+      "icon": "res://assets/sprites/bread/strawberry_cake.png"
+    },
+    {
+      "id": "macaron",
+      "name": "마카롱",
+      "name_en": "Macaron",
+      "category": "pastry",
+      "tier": 5,
+      "base_price": 80,
+      "base_craft_time": 180,
+      "experience": 40,
+      "ingredients": [
+        {"id": "flour", "amount": 1},
+        {"id": "sugar", "amount": 2},
+        {"id": "cream", "amount": 2}
+      ],
+      "unlock_level": 4,
+      "icon": "res://assets/sprites/bread/macaron.png"
+    }
+  ]
+}
