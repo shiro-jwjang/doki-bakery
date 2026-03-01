@@ -1,5 +1,5 @@
 extends Node
-class_name SaveManager
+
 
 ## 세이브 매니저 - 저장/로드/백업 관리
 

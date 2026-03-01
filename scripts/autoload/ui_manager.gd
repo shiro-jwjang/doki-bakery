@@ -1,5 +1,5 @@
 extends Node
-class_name UIManager
+
 
 ## UI 매니저 - 화면 전환, 모달 관리
 

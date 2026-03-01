@@ -1,5 +1,5 @@
 extends Node
-class_name DataManager
+
 
 ## 데이터 매니저 - JSON 데이터를 Resource로 로드
 

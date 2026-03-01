@@ -1,5 +1,5 @@
 extends Node
-class_name GameManager
+
 
 ## 게임 매니저 - 두근두근 베이커리의 핵심 싱글톤
 
