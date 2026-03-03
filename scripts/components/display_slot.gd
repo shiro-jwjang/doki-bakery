@@ -56,6 +56,13 @@ func display_bread(bread_id: String, amount: int) -> void:
 	quantity = amount
 	state = "displayed"
 
+	# Load bread icon
+	var dm = _get_data_manager()
+	if dm and bread_icon:
+		var bread_data = dm.get_bread(bread_id)
+		if bread_data and bread_data.icon and ResourceLoader.exists(bread_data.icon):
+			bread_icon.texture = load(bread_data.icon)
+
 	bread_displayed.emit(bread_id, quantity)
 	print("DisplaySlot %d: Displaying %d x %s" % [slot_index, quantity, bread_id])
 

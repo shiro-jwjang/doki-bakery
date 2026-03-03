@@ -14,7 +14,7 @@
         {"id": "sugar", "amount": 1}
       ],
       "unlock_level": 1,
-      "icon": "res://assets/sprites/bread/white_bread.png"
+      "icon": "res://assets/images/icons/white_bread.png"
     },
     {
       "id": "croissant",
@@ -30,7 +30,7 @@
         {"id": "butter", "amount": 2}
       ],
       "unlock_level": 2,
-      "icon": "res://assets/sprites/bread/croissant.png"
+      "icon": "res://assets/images/icons/croissant.png"
     },
     {
       "id": "chocolate_muffin",
@@ -47,7 +47,7 @@
         {"id": "chocolate", "amount": 1}
       ],
       "unlock_level": 3,
-      "icon": "res://assets/sprites/bread/chocolate_muffin.png"
+      "icon": "res://assets/images/icons/chocolate_muffin.png"
     },
     {
       "id": "strawberry_cake",
@@ -65,7 +65,7 @@
         {"id": "cream", "amount": 1}
       ],
       "unlock_level": 5,
-      "icon": "res://assets/sprites/bread/strawberry_cake.png"
+      "icon": "res://assets/images/icons/strawberry_cake.png"
     },
     {
       "id": "macaron",
@@ -82,7 +82,7 @@
         {"id": "cream", "amount": 2}
       ],
       "unlock_level": 4,
-      "icon": "res://assets/sprites/bread/macaron.png"
+      "icon": "res://assets/images/icons/macaron.png"
     }
   ]
 }

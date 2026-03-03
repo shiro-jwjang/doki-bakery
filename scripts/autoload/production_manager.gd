@@ -203,3 +203,39 @@ func calculate_production_time(bread_id: String, fairy_id: String) -> float:
 
 func is_slot_free(slot_index: int) -> bool:
 	return not active_baking.has(slot_index)
+
+
+## 빵 ID로 현재 생산 중인지 확인 (ProductionPanel용)
+func is_producing(bread_id: String) -> bool:
+	for slot_index in active_baking.keys():
+		if active_baking[slot_index].bread_id == bread_id:
+			return true
+	return false
+
+
+## 빵 ID로 남은 시간 반환 (ProductionPanel용)
+func get_remaining_time(bread_id: String) -> float:
+	for slot_index in active_baking.keys():
+		if active_baking[slot_index].bread_id == bread_id:
+			var data = active_baking[slot_index]
+			var current_time = Time.get_unix_time_from_system()
+			var elapsed = current_time - data.start_time
+			return max(0.0, data.duration - elapsed)
+	return 0.0
+
+
+## 빵 ID로 생산 시작 - 빈 슬롯 자동 할당 (ProductionPanel용)
+func start_production(bread_id: String, fairy_id: String = "") -> bool:
+	# 이미 생산 중인지 확인
+	if is_producing(bread_id):
+		printerr("ProductionManager: ", bread_id, " is already being produced.")
+		return false
+
+	# 빈 슬롯 찾기
+	for i in range(max_slots):
+		if is_slot_free(i):
+			start_baking(i, bread_id, fairy_id)
+			return true
+
+	printerr("ProductionManager: No free slots available")
+	return false

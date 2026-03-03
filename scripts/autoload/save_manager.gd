@@ -121,6 +121,11 @@ func has_save() -> bool:
 
 
 func delete_save() -> bool:
+	# 파일이 없으면 조용히 성공 처리
+	if not FileAccess.file_exists(SAVE_PATH):
+		current_save = SaveData.new()
+		return true
+
 	var err = DirAccess.remove_absolute(SAVE_PATH)
 	if err != OK:
 		push_error("Failed to delete save: %d" % err)
