@@ -12,8 +12,8 @@ on:
         default: '0.1.0'
 
 env:
-  GODOT_VERSION: "4.3"
-  GODOT_RELEASE: "4.3-stable"
+  GODOT_VERSION: "4.6"
+  GODOT_RELEASE: "4.6-stable"
 
 jobs:
   export:
