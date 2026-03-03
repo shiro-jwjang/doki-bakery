@@ -61,41 +61,151 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 
 [node name="Slot1" type="Button" parent="Control/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-icon = ExtResource("2")
-icon_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot1/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_font_sizes/font_size = 16
 text = "식빵"
+horizontal_alignment = 1
 
 [node name="Slot2" type="Button" parent="Control/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-icon = ExtResource("3")
-icon_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot2/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_font_sizes/font_size = 16
 text = "크로와상"
+horizontal_alignment = 1
 
 [node name="Slot3" type="Button" parent="Control/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-icon = ExtResource("4")
-icon_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot3/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_font_sizes/font_size = 16
 text = "케이크"
+horizontal_alignment = 1
 
 [node name="Slot4" type="Button" parent="Control/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-icon = ExtResource("5")
-icon_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot4/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot4/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_font_sizes/font_size = 16
 text = "쿠키"
+horizontal_alignment = 1
 
 [node name="Slot5" type="Button" parent="Control/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(0, 90)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
-icon = ExtResource("6")
-icon_alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot5/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HBoxContainer/Slot5/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_font_sizes/font_size = 16
 text = "마들렌"
+horizontal_alignment = 1

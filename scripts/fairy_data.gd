@@ -14,7 +14,7 @@ class_name FairyData
 @export var icon: String
 
 
-func is_unlocked(current_level: int, stats: Dictionary = {}) -> bool:
+func is_unlocked(current_level: int, _stats: Dictionary = {}) -> bool:
 	match unlock_condition.type:
 		"level":
 			return current_level >= unlock_condition.value

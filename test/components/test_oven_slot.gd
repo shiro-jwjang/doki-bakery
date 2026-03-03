@@ -31,7 +31,6 @@ func before_each():
 		OvenSlot.set_production_manager(ProductionManager)
 
 	add_child_autofree(OvenSlot)
-	OvenSlot._ready()
 
 
 func test_oven_slot_has_slot_index():

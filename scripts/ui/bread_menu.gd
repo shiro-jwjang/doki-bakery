@@ -14,7 +14,8 @@ var target_oven_slot: int = -1
 
 
 func _ready() -> void:
-	close_button.pressed.connect(_on_close_pressed)
+	if not close_button.pressed.is_connected(_on_close_pressed):
+		close_button.pressed.connect(_on_close_pressed)
 	_populate_bread_list()
 
 
@@ -53,7 +54,7 @@ func _populate_bread_list() -> void:
 	# Get current level
 	var current_level = 1
 	if GameManager:
-		current_level = GameManager.player_level
+		current_level = GameManager.level
 
 	if level_label:
 		level_label.text = "Lv.%d" % current_level

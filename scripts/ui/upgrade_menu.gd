@@ -12,16 +12,20 @@ var upgrade_levels: Dictionary = {}  # upgrade_id -> current_level
 
 
 func _ready() -> void:
-	close_button.pressed.connect(_on_close_pressed)
+	if not close_button.pressed.is_connected(_on_close_pressed):
+		close_button.pressed.connect(_on_close_pressed)
 	_load_upgrade_levels()
 	_populate_upgrade_list()
 
 
 func _load_upgrade_levels() -> void:
-	# Load from SaveManager if available
-	# For now, start at level 0
-	for upgrade_id in DataManager.upgrades.keys():
-		upgrade_levels[upgrade_id] = 0
+	# Load from SaveManager
+	if SaveManager and SaveManager.current_save:
+		upgrade_levels = SaveManager.current_save.upgrade_levels.duplicate()
+	else:
+		# Initialize with level 0
+		for upgrade_id in DataManager.upgrades.keys():
+			upgrade_levels[upgrade_id] = 0
 
 
 func purchase_upgrade(upgrade_id: String) -> bool:
@@ -40,18 +44,24 @@ func purchase_upgrade(upgrade_id: String) -> bool:
 		return false
 
 	var cost = _calculate_cost(upgrade, current_level)
-	if GameManager.player_gold < cost:
+	if GameManager.gold < cost:
 		print(
 			(
 				"UpgradeMenu: Not enough gold for %s (need %d, have %d)"
-				% [upgrade_id, cost, GameManager.player_gold]
+				% [upgrade_id, cost, GameManager.gold]
 			)
 		)
 		return false
 
 	# Purchase
-	GameManager.remove_gold(cost)
+	GameManager.spend_gold(cost)
 	upgrade_levels[upgrade_id] = current_level + 1
+
+	# SaveManager에도 저장
+	if SaveManager and SaveManager.current_save:
+		SaveManager.current_save.upgrade_levels[upgrade_id] = upgrade_levels[upgrade_id]
+		SaveManager.save_game()
+
 	upgrade_purchased.emit(upgrade_id)
 
 	print("UpgradeMenu: Purchased %s to level %d" % [upgrade_id, upgrade_levels[upgrade_id]])

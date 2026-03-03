@@ -22,11 +22,16 @@ func before_each():
 	# Setup SalesManager
 	SalesManager = load("res://scripts/autoload/sales_manager.gd").new()
 	add_child_autofree(SalesManager)
-	SalesManager._ready()
 
 	# Setup GameManager
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
+
+	# 의존성 주입
+	ProductionManager.set_sales_manager(SalesManager)
+	ProductionManager.set_data_manager(DataManager)
+	SalesManager.set_data_manager(DataManager)
+	SalesManager.set_game_manager(GameManager)
 
 	# Clear any existing state and reset to defaults
 	SalesManager.inventory.clear()

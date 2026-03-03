@@ -17,7 +17,6 @@ func before_each():
 	# Inject DataManager dependency into SalesManager
 	if SalesManager.has_method("set_data_manager"):
 		SalesManager.set_data_manager(DataManager)
-	SalesManager._ready()
 
 	# Create DisplaySlot scene
 	var scene = load("res://scenes/components/DisplaySlot.tscn")
@@ -34,7 +33,6 @@ func before_each():
 		DisplaySlot.set_data_manager(DataManager)
 
 	add_child_autofree(DisplaySlot)
-	DisplaySlot._ready()
 
 
 func test_display_slot_has_slot_index():

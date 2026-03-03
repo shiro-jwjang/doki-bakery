@@ -1,6 +1,23 @@
 {
   "fairies": [
     {
+      "id": "fairy_flour",
+      "name": "밀가루 요정",
+      "name_en": "Flour Fairy",
+      "description": "모든 빵 제작 속도 +5%",
+      "ability": {
+        "type": "craft_speed",
+        "category": "all",
+        "bonus": 0.05
+      },
+      "unlock_condition": {
+        "type": "level",
+        "value": 1
+      },
+      "cost": 500,
+      "icon": "res://assets/images/characters/fairy_patissier.png"
+    },
+    {
       "id": "strawberry_fairy",
       "name": "딸기 요정",
       "name_en": "Strawberry Fairy",
@@ -15,7 +32,7 @@
         "value": 3
       },
       "cost": 500,
-      "icon": "res://assets/sprites/fairy/strawberry_fairy.png"
+      "icon": "res://assets/images/characters/fairy_strawberry.png"
     },
     {
       "id": "chocolate_fairy",
@@ -32,7 +49,7 @@
         "value": 4
       },
       "cost": 750,
-      "icon": "res://assets/sprites/fairy/chocolate_fairy.png"
+      "icon": "res://assets/images/characters/fairy_chocolate.png"
     },
     {
       "id": "mint_fairy",
@@ -49,7 +66,7 @@
         "value": 5
       },
       "cost": 1000,
-      "icon": "res://assets/sprites/fairy/mint_fairy.png"
+      "icon": "res://assets/images/characters/fairy_mint.png"
     }
   ]
 }

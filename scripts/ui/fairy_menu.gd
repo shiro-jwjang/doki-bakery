@@ -18,9 +18,11 @@ func _ready() -> void:
 
 
 func _load_hired_fairies() -> void:
-	# Load from SaveManager if available
-	# For now, start empty
-	hired_fairies.clear()
+	# Load from SaveManager
+	if SaveManager and SaveManager.current_save:
+		hired_fairies.clear()
+		for fairy_id in SaveManager.current_save.owned_fairies:
+			hired_fairies.append(fairy_id)
 
 
 func hire_fairy(fairy_id: String) -> bool:
@@ -39,25 +41,32 @@ func hire_fairy(fairy_id: String) -> bool:
 		return false
 
 	# Check level requirement
-	var current_level = GameManager.player_level
+	var current_level = GameManager.level
 	var required_level = fairy.unlock_condition.get("value", 1)
 	if current_level < required_level:
 		print("FairyMenu: Need level %d to hire %s" % [required_level, fairy_id])
 		return false
 
 	# Check gold
-	if GameManager.player_gold < fairy.cost:
+	if GameManager.gold < fairy.cost:
 		print(
 			(
 				"FairyMenu: Not enough gold for %s (need %d, have %d)"
-				% [fairy_id, fairy.cost, GameManager.player_gold]
+				% [fairy_id, fairy.cost, GameManager.gold]
 			)
 		)
 		return false
 
 	# Hire
-	GameManager.remove_gold(fairy.cost)
+	GameManager.spend_gold(fairy.cost)
 	hired_fairies.append(fairy_id)
+
+	# SaveManager에도 저장
+	if SaveManager and SaveManager.current_save:
+		if fairy_id not in SaveManager.current_save.owned_fairies:
+			SaveManager.current_save.owned_fairies.append(fairy_id)
+		SaveManager.save_game()
+
 	fairy_hired.emit(fairy_id)
 
 	print("FairyMenu: Hired %s" % fairy_id)
@@ -84,9 +93,31 @@ func _populate_fairy_list() -> void:
 func _create_fairy_item(fairy_data: FairyData) -> Control:
 	var container = VBoxContainer.new()
 
-	# Header
+	# Header with icon
 	var header = HBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	container.add_child(header)
+
+	# Fairy icon - 스프라이트시트에서 첫 번째 캐릭터(64x64)만 표시
+	var icon_rect = TextureRect.new()
+	if fairy_data.icon and ResourceLoader.exists(fairy_data.icon):
+		var tex = load(fairy_data.icon)
+		if tex:
+			# AtlasTexture 생성하여 64x64 영역만 참조
+			var atlas = AtlasTexture.new()
+			atlas.atlas = tex
+			atlas.region = Rect2(0, 0, 64, 64)
+			icon_rect.texture = atlas
+			print("FairyMenu: Loaded icon (64x64 crop) for ", fairy_data.name)
+		else:
+			print("FairyMenu: Failed to load texture: ", fairy_data.icon)
+	else:
+		print("FairyMenu: Icon not found: ", fairy_data.icon)
+
+	icon_rect.custom_minimum_size = Vector2(64, 64)
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
+	header.add_child(icon_rect)
 
 	var name_label = Label.new()
 	name_label.text = fairy_data.name
@@ -99,7 +130,7 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 		status_label.add_theme_color_override("font_color", Color(0.2, 0.8, 0.2))
 	else:
 		var required_level = fairy_data.unlock_condition.get("value", 1)
-		var current_level = GameManager.player_level if GameManager else 1
+		var current_level = GameManager.level if GameManager else 1
 		if current_level < required_level:
 			status_label.text = "Lv.%d 필요" % required_level
 			status_label.add_theme_color_override("font_color", Color(0.8, 0.4, 0.4))
@@ -120,7 +151,7 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 		hire_button.disabled = true
 	else:
 		var required_level = fairy_data.unlock_condition.get("value", 1)
-		var current_level = GameManager.player_level if GameManager else 1
+		var current_level = GameManager.level if GameManager else 1
 		if current_level < required_level:
 			hire_button.text = "잠김"
 			hire_button.disabled = true

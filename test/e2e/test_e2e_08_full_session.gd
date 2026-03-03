@@ -207,10 +207,13 @@ func test_1day_milestone_basic_upgrades():
 
 
 func test_session_save_and_load():
+	# Disable GameManager sync for isolated save/load testing
+	SaveManager.set_game_manager(null)
+
 	# 세션 데이터 설정
-	GameManager.gold = 1234
-	GameManager.level = 5
-	GameManager.experience = 500
+	SaveManager.current_save.gold = 1234
+	SaveManager.current_save.level = 5
+	SaveManager.current_save.experience = 500
 
 	# owned_fairies 직접 할당 대신 append 사용
 	SaveManager.current_save.owned_fairies.clear()
@@ -229,8 +232,6 @@ func test_session_save_and_load():
 	SaveManager.save_game()
 
 	# 데이터 리셋
-	GameManager.gold = 0
-	GameManager.level = 1
 	SaveManager.current_save = load("res://scripts/save_data.gd").new()
 
 	# 로드

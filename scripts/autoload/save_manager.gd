@@ -13,16 +13,25 @@ var current_save: SaveData = null
 var _auto_save_timer: float = 0.0
 
 # 의존성 주입 (테스트용)
-var _game_manager = null
+# set_game_manager(null) 호출 시 autoload 체크 비활성화
+var _game_manager: Node = null
+var _skip_autoload: bool = false
 
 
 func set_game_manager(game_manager: Node):
-	_game_manager = game_manager
+	if game_manager == null:
+		_skip_autoload = true
+		_game_manager = null
+	else:
+		_game_manager = game_manager
+		_skip_autoload = false
 
 
 func _get_game_manager() -> Node:
-	if _game_manager:
+	if _game_manager != null:
 		return _game_manager
+	if _skip_autoload:
+		return null
 	# Check if GameManager exists in tree (autoload)
 	if has_node("/root/GameManager"):
 		return get_node("/root/GameManager")
@@ -44,12 +53,19 @@ func save_game() -> bool:
 	if current_save == null:
 		current_save = SaveData.new()
 
-	# GameManager 데이터 동기화
+	# GameManager 데이터 동기화 (autload에서만, 테스트에서는 current_save 직접 수정)
 	var gm = _get_game_manager()
-	if gm:
+	if gm and gm != self:
 		current_save.gold = gm.gold
 		current_save.level = gm.level
 		current_save.experience = gm.experience
+		current_save.total_breads_crafted = gm.total_breads_crafted
+		current_save.total_gold_earned = gm.total_gold_earned
+
+	# SalesManager 데이터 동기화 (autoload에서만, 테스트 격리 시 스킵)
+	if not _skip_autoload and has_node("/root/SalesManager"):
+		var sm = get_node("/root/SalesManager")
+		current_save.inventory = sm.inventory.duplicate()
 
 	current_save.timestamp = Time.get_unix_time_from_system()
 
@@ -166,6 +182,7 @@ func _save_to_dict(save: SaveData) -> Dictionary:
 		"owned_fairies": save.owned_fairies,
 		"upgrade_levels": save.upgrade_levels,
 		"inventory": save.inventory,
+		"active_baking": save.active_baking,
 		"total_breads_crafted": save.total_breads_crafted,
 		"total_gold_earned": save.total_gold_earned,
 		"offline_start_time": save.offline_start_time,
@@ -191,6 +208,7 @@ func _dict_to_save(dict: Dictionary) -> SaveData:
 			save.owned_fairies.append(fairy)
 	save.upgrade_levels = dict.get("upgrade_levels", {})
 	save.inventory = dict.get("inventory", {})
+	save.active_baking = dict.get("active_baking", {})
 	save.total_breads_crafted = dict.get("total_breads_crafted", 0)
 	save.total_gold_earned = dict.get("total_gold_earned", 0)
 	save.offline_start_time = dict.get("offline_start_time", 0)
@@ -204,6 +222,10 @@ func get_offline_duration() -> float:
 
 	var current_time = Time.get_unix_time_from_system()
 	return current_time - current_save.offline_start_time
+
+
+func get_last_save_time() -> float:
+	return current_save.timestamp if current_save else 0.0
 
 
 func set_offline_start() -> void:

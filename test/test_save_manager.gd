@@ -4,9 +4,17 @@ var SaveManager: Node
 
 
 func before_each():
+	# Clean up any existing save files first
+	if FileAccess.file_exists("user://save.json"):
+		DirAccess.remove_absolute("user://save.json")
+	if FileAccess.file_exists("user://save_backup.json"):
+		DirAccess.remove_absolute("user://save_backup.json")
+
 	SaveManager = load("res://scripts/autoload/save_manager.gd").new()
 	add_child_autofree(SaveManager)
 	SaveManager._ready()
+	# Disable GameManager sync for isolated testing
+	SaveManager.set_game_manager(null)
 
 
 func after_each():

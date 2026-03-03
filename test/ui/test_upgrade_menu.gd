@@ -61,8 +61,13 @@ func test_upgrade_menu_emits_purchased_signal():
 
 
 func test_upgrade_menu_checks_gold_before_purchase():
+	# Clean state - reset upgrade levels to ensure clean test
+	UpgradeMenu.upgrade_levels = {}
+	for upgrade_id in DataManager.upgrades.keys():
+		UpgradeMenu.upgrade_levels[upgrade_id] = 0
+
 	GameManager.player_gold = 50
 
-	# Oven speed upgrade costs 100, should fail
+	# Oven speed upgrade costs 100 at level 0, should fail
 	var result = UpgradeMenu.purchase_upgrade("oven_speed")
 	assert_false(result, "Should not afford upgrade with insufficient gold")

@@ -173,6 +173,14 @@ func get_unlocked_breads(current_level: int) -> Array[BreadData]:
 	return result
 
 
+func get_unlocked_bread_ids(current_level: int) -> Array[String]:
+	var result: Array[String] = []
+	for bread in breads.values():
+		if bread.is_unlocked(current_level):
+			result.append(bread.id)
+	return result
+
+
 func get_unlocked_fairies(current_level: int) -> Array[FairyData]:
 	var result: Array[FairyData] = []
 	for fairy in fairies.values():

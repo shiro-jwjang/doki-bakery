@@ -32,14 +32,17 @@ func test_balance_bread_configs():
 	assert_true(
 		DataManager.balance.production.breads.has("croissant"), "Should have croissant config"
 	)
-	assert_true(DataManager.balance.production.breads.has("cake"), "Should have cake config")
+	assert_true(
+		DataManager.balance.production.breads.has("strawberry_cake"),
+		"Should have strawberry_cake config"
+	)
 
 
 func test_balance_croissant_config():
 	var croissant = DataManager.balance.production.breads.croissant
 	assert_eq(croissant.baseTime, 5, "Croissant base time should be 5")
-	assert_eq(croissant.ingredientCost, 10, "Croissant ingredient cost should be 10")
-	assert_eq(croissant.basePrice, 5, "Croissant base price should be 5")
+	assert_eq(croissant.ingredientCost, 15, "Croissant ingredient cost should be 15")
+	assert_eq(croissant.basePrice, 10, "Croissant base price should be 10")
 
 
 func test_balance_upgrade_configs():
