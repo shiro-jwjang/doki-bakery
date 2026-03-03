@@ -66,7 +66,12 @@ func test_upgrade_menu_checks_gold_before_purchase():
 	for upgrade_id in DataManager.upgrades.keys():
 		UpgradeMenu.upgrade_levels[upgrade_id] = 0
 
-	GameManager.player_gold = 50
+	# UpgradeMenu는 autoload GameManager.gold를 참조하므로 autoload에 설정
+	var autoload_gm = get_node_or_null("/root/GameManager")
+	if autoload_gm:
+		autoload_gm.gold = 50
+	else:
+		GameManager.gold = 50
 
 	# Oven speed upgrade costs 100 at level 0, should fail
 	var result = UpgradeMenu.purchase_upgrade("oven_speed")
