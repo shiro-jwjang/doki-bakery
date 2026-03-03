@@ -11,9 +11,14 @@ func before_each():
 	add_child_autofree(DataManager)
 	DataManager.load_all_data()
 
-	# Setup ProductionManager
+	# Setup ProductionManager (로컬 참조용)
 	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
+
+	# autoload ProductionManager 슬롯 초기화 (테스트 격리)
+	var autoload_pm = get_node_or_null("/root/ProductionManager")
+	if autoload_pm:
+		autoload_pm.active_baking.clear()
 
 	# Create BreadMenu scene
 	var scene = load("res://scenes/ui/BreadMenu.tscn")
@@ -89,20 +94,22 @@ func test_bread_menu_shows_bread_info():
 
 
 func test_bread_menu_connects_to_production_manager():
-	# Selecting a bread should start baking in ProductionManager
-	# BreadMenu needs ProductionManager to be accessible via autoload path
-	# Since we're in a test environment, we need to ensure the connection works
-
-	# Use the target_oven_slot that BreadMenu expects
+	# BreadMenu.select_bread은 autoload ProductionManager에 start_baking을 호출함
 	BreadMenu.target_oven_slot = 0
 	BreadMenu.select_bread("white_bread", 0)
 
-	# Note: This test may fail if BreadMenu can't access ProductionManager
-	# The actual integration is tested in test_integration.gd
-	assert_true(
-		ProductionManager.active_baking.has(0),
-		"ProductionManager should have baking started in slot 0"
-	)
+	# autoload ProductionManager의 active_baking을 체크
+	var autoload_pm = get_node_or_null("/root/ProductionManager")
+	if autoload_pm:
+		assert_true(
+			autoload_pm.active_baking.has(0),
+			"ProductionManager should have baking started in slot 0"
+		)
+	else:
+		assert_true(
+			ProductionManager.active_baking.has(0),
+			"ProductionManager should have baking started in slot 0"
+		)
 
 
 func test_bread_menu_closes_on_escape():
