@@ -14,6 +14,7 @@ on:
 env:
   GODOT_VERSION: "4.6"
   GODOT_RELEASE: "4.6-stable"
+  GODOT_TEMPLATE_DIR: "4.6.stable"
 
 jobs:
   export:
@@ -36,10 +37,10 @@ jobs:
 
       - name: Install Export Templates
         run: |
-          mkdir -p ~/.local/share/godot/export_templates/${{ env.GODOT_RELEASE }}
+          mkdir -p ~/.local/share/godot/export_templates/${{ env.GODOT_TEMPLATE_DIR }}
           wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_export_templates.tpz
           unzip -q Godot_v${{ env.GODOT_RELEASE }}_export_templates.tpz -d /tmp/templates
-          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/${{ env.GODOT_RELEASE }}/
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/${{ env.GODOT_TEMPLATE_DIR }}/
 
       - name: Import assets
         run: timeout 300 godot --headless --import 2>&1 || true
@@ -89,10 +90,10 @@ jobs:
 
       - name: Install Export Templates
         run: |
-          mkdir -p ~/.local/share/godot/export_templates/${{ env.GODOT_RELEASE }}
+          mkdir -p ~/.local/share/godot/export_templates/${{ env.GODOT_TEMPLATE_DIR }}
           wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_export_templates.tpz
           unzip -q Godot_v${{ env.GODOT_RELEASE }}_export_templates.tpz -d /tmp/templates
-          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/${{ env.GODOT_RELEASE }}/
+          mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/${{ env.GODOT_TEMPLATE_DIR }}/
 
       - name: Import assets
         run: timeout 300 godot --headless --import 2>&1 || true
