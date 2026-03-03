@@ -18,6 +18,19 @@ class_name BakeryMain
 
 var selected_oven_slot: int = -1
 
+# 의존성 주입 (테스트용)
+var _game_manager = null
+
+
+func set_game_manager(game_manager: Node):
+	_game_manager = game_manager
+
+
+func _get_game_manager() -> Node:
+	if _game_manager:
+		return _game_manager
+	return get_node_or_null("/root/GameManager")
+
 
 func _ready() -> void:
 	bread_select_button.pressed.connect(_on_bread_select_pressed)
@@ -56,7 +69,7 @@ func _on_fairy_pressed() -> void:
 	# TODO: Open FairyMenu
 
 
-func _on_baking_started(bread_id: String, duration: float) -> void:
+func _on_baking_started(bread_id: String, _duration: float) -> void:
 	print("BakeryMain: Baking started for %s" % bread_id)
 
 
@@ -72,7 +85,9 @@ func _on_bread_collected(bread_id: String) -> void:
 
 func _on_bread_sold(bread_id: String, gold_earned: float) -> void:
 	print("BakeryMain: Bread sold %s for %d gold" % [bread_id, gold_earned])
-	GameManager.add_gold(int(gold_earned))
+	var gm = _get_game_manager()
+	if gm:
+		gm.add_gold(int(gold_earned))
 
 
 func _add_to_display_slot(bread_id: String) -> void:

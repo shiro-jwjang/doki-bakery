@@ -8,16 +8,27 @@ var total_gold = 0
 
 # 의존성 주입 (테스트용)
 var _data_manager = null
+var _game_manager = null
 
 
 func set_data_manager(data_manager: Node):
 	_data_manager = data_manager
 
 
+func set_game_manager(game_manager: Node):
+	_game_manager = game_manager
+
+
 func _get_data_manager() -> Node:
 	if _data_manager:
 		return _data_manager
-	return DataManager
+	return get_node_or_null("/root/DataManager")
+
+
+func _get_game_manager() -> Node:
+	if _game_manager:
+		return _game_manager
+	return get_node_or_null("/root/GameManager")
 
 
 func _ready():
@@ -53,6 +64,13 @@ func sell_bread(bread_id: String, quantity: int = 1):
 
 	inventory[bread_id] -= quantity
 	total_gold += total_price
+
+	# GameManager 업데이트 (영구 저장 및 UI 갱신용)
+	var gm = _get_game_manager()
+	if gm:
+		gm.add_gold(int(total_price))
+		# 판매 경험치 추가 (골드 수익의 20%)
+		gm.add_experience(int(total_price * 0.2))
 
 	emit_signal("inventory_updated", bread_id, inventory[bread_id])
 	emit_signal("bread_sold", bread_id, quantity, total_price)

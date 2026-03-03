@@ -16,6 +16,20 @@ var current_bread_id: String = ""
 var baking_start_time: float = 0.0
 var baking_duration: float = 0.0
 
+# 의존성 주입 (테스트용)
+var _production_manager = null
+
+
+func set_production_manager(production_manager: Node):
+	_production_manager = production_manager
+
+
+func _get_production_manager() -> Node:
+	if _production_manager:
+		return _production_manager
+	return get_node_or_null("/root/ProductionManager")
+
+
 @onready var progress_bar: ProgressBar = $VBoxContainer/ProgressBar
 @onready var bread_icon: TextureRect = $VBoxContainer/BreadIcon
 @onready var status_label: Label = $VBoxContainer/StatusLabel
@@ -24,16 +38,17 @@ var baking_duration: float = 0.0
 
 
 func _ready() -> void:
-	if start_button:
+	if start_button and not start_button.pressed.is_connected(_on_start_pressed):
 		start_button.pressed.connect(_on_start_pressed)
 	if collect_button:
-		collect_button.pressed.connect(_on_collect_pressed)
+		if not collect_button.pressed.is_connected(_on_collect_pressed):
+			collect_button.pressed.connect(_on_collect_pressed)
 		collect_button.hide()
 
 	_update_ui()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if state == "baking":
 		var current_time = Time.get_unix_time_from_system()
 		var elapsed = current_time - baking_start_time
@@ -51,20 +66,21 @@ func start_baking(bread_id: String) -> bool:
 	if state != "idle":
 		return false
 
-	if not ProductionManager:
+	var pm = _get_production_manager()
+	if not pm:
 		push_error("OvenSlot: ProductionManager not found")
 		return false
 
-	if not ProductionManager.is_slot_free(slot_index):
+	if not pm.is_slot_free(slot_index):
 		return false
 
 	current_bread_id = bread_id
 	baking_start_time = Time.get_unix_time_from_system()
-	baking_duration = ProductionManager.calculate_production_time(bread_id, "")
+	baking_duration = pm.calculate_production_time(bread_id, "")
 	state = "baking"
 
 	# Start baking in ProductionManager
-	ProductionManager.start_baking(slot_index, bread_id)
+	pm.start_baking(slot_index, bread_id)
 
 	baking_started.emit(bread_id, baking_duration)
 	print("OvenSlot %d: Started baking %s" % [slot_index, bread_id])

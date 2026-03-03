@@ -12,6 +12,31 @@ var state: String = "empty"  # empty, displayed
 var current_bread_id: String = ""
 var quantity: int = 0
 
+# 의존성 주입 (테스트용)
+var _sales_manager = null
+var _data_manager = null
+
+
+func set_sales_manager(sales_manager: Node):
+	_sales_manager = sales_manager
+
+
+func set_data_manager(data_manager: Node):
+	_data_manager = data_manager
+
+
+func _get_sales_manager() -> Node:
+	if _sales_manager:
+		return _sales_manager
+	return get_node_or_null("/root/SalesManager")
+
+
+func _get_data_manager() -> Node:
+	if _data_manager:
+		return _data_manager
+	return get_node_or_null("/root/DataManager")
+
+
 @onready var bread_icon: TextureRect = $VBoxContainer/BreadIcon
 @onready var bread_name_label: Label = $VBoxContainer/BreadNameLabel
 @onready var quantity_label: Label = $VBoxContainer/QuantityLabel
@@ -20,7 +45,7 @@ var quantity: int = 0
 
 
 func _ready() -> void:
-	if sell_button:
+	if sell_button and not sell_button.pressed.is_connected(_on_sell_pressed):
 		sell_button.pressed.connect(_on_sell_pressed)
 
 	_update_ui()
@@ -41,20 +66,18 @@ func sell_bread() -> bool:
 	if state != "displayed" or quantity <= 0:
 		return false
 
-	if not SalesManager:
+	var sm = _get_sales_manager()
+	if not sm:
 		push_error("DisplaySlot: SalesManager not found")
 		return false
 
 	# Check if we have inventory to sell
-	if (
-		not SalesManager.inventory.has(current_bread_id)
-		or SalesManager.inventory[current_bread_id] <= 0
-	):
+	if not sm.inventory.has(current_bread_id) or sm.inventory[current_bread_id] <= 0:
 		return false
 
 	# Calculate price and sell
-	var price = SalesManager.calculate_sell_price(current_bread_id)
-	SalesManager.sell_bread(current_bread_id, 1)
+	var price = sm.calculate_sell_price(current_bread_id)
+	sm.sell_bread(current_bread_id, 1)
 
 	quantity -= 1
 	bread_sold.emit(current_bread_id, price)
@@ -72,10 +95,14 @@ func sell_bread() -> bool:
 
 
 func get_sell_price() -> float:
-	if state != "displayed" or not SalesManager:
+	if state != "displayed":
 		return 0.0
 
-	var unit_price = SalesManager.calculate_sell_price(current_bread_id)
+	var sm = _get_sales_manager()
+	if not sm:
+		return 0.0
+
+	var unit_price = sm.calculate_sell_price(current_bread_id)
 	return unit_price * quantity
 
 
@@ -110,7 +137,8 @@ func _update_ui() -> void:
 				bread_icon.hide()
 
 		"displayed":
-			var bread_data = DataManager.get_bread(current_bread_id)
+			var dm = _get_data_manager()
+			var bread_data = dm.get_bread(current_bread_id) if dm else null
 			if bread_name_label:
 				bread_name_label.text = bread_data.name if bread_data else current_bread_id
 			if quantity_label:

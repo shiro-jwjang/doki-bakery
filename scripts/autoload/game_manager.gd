@@ -3,8 +3,9 @@ extends Node
 ## 게임 매니저 - 두근두근 베이커리의 핵심 싱글톤
 
 signal gold_changed(new_amount: int)
-signal level_changed(new_level: int)
+signal level_changed(new_level: int, new_experience: int)
 signal experience_changed(new_amount: int)
+signal experience_gained(amount: int)
 
 var gold: int = 0:
 	set(value):
@@ -21,12 +22,26 @@ var player_gold: int:
 var level: int = 1:
 	set(value):
 		level = value
-		level_changed.emit(level)
+		level_changed.emit(level, experience)
+
+# API 호환성용 (테스트용)
+var player_level: int:
+	get:
+		return level
+	set(value):
+		level = value
 
 var experience: int = 0:
 	set(value):
 		experience = value
 		experience_changed.emit(experience)
+
+# API 호환성용 (테스트용)
+var player_experience: int:
+	get:
+		return experience
+	set(value):
+		experience = value
 
 var total_breads_crafted: int = 0
 var total_gold_earned: int = 0
@@ -58,6 +73,7 @@ func remove_gold(amount: int) -> bool:
 
 func add_experience(amount: int) -> void:
 	experience += amount
+	experience_gained.emit(amount)
 	_check_level_up()
 	_save_game()
 
@@ -73,6 +89,7 @@ func _check_level_up() -> void:
 		experience -= required_exp
 		level += 1
 		print("🎉 Level up! Now level %d" % level)
+		level_changed.emit(level, experience)
 		required_exp = calculate_experience_needed(level)
 
 

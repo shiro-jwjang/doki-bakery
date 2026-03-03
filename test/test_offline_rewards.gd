@@ -4,18 +4,23 @@ extends GutTest
 
 var SaveManager: Node
 var GameManager: Node
+var DataManager: Node
 
 
 func before_each():
+	# Setup DataManager
+	DataManager = load("res://scripts/autoload/data_manager.gd").new()
+	add_child_autofree(DataManager)
+	DataManager.load_all_data()
+
 	# Setup SaveManager
 	SaveManager = load("res://scripts/autoload/save_manager.gd").new()
 	add_child_autofree(SaveManager)
 	SaveManager._ready()
 
 	# Setup GameManager
-	GameManager = load("res://scripts/autoload/GameManager.gd").new()
+	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
-	GameManager._ready()
 
 
 func test_save_manager_stores_last_save_time():
@@ -37,7 +42,7 @@ func test_save_manager_calculates_offline_duration():
 	# For this test, we'll mock it
 	var offline_duration = SaveManager.get_offline_duration()
 
-	assert_ge(offline_duration, 0, "Offline duration should be non-negative")
+	assert_true(offline_duration >= 0, "Offline duration should be non-negative")
 
 
 func test_offline_duration_is_capped_at_24_hours():
@@ -74,7 +79,7 @@ func test_offline_rewards_use_multiplier():
 	if balance and balance.has("offline"):
 		var multiplier = balance.offline.get("rewardMultiplier", 0.5)
 		assert_gt(multiplier, 0, "Should have a reward multiplier")
-		assert_le(multiplier, 1.0, "Multiplier should be <= 1.0")
+		assert_true(multiplier <= 1.0, "Multiplier should be <= 1.0")
 
 
 func test_game_manager_adds_offline_gold():
@@ -131,7 +136,7 @@ func test_offline_rewards_are_not_duplicated():
 
 	# Both should return the same duration (or very close)
 	# because no save happened in between
-	assert_abs_diff(duration1, duration2, 1.0, "Durations should be similar")
+	assert_true(abs(duration1 - duration2) <= 1.0, "Durations should be similar")
 
 
 func test_8_hour_full_efficiency():

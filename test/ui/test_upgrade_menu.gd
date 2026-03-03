@@ -12,7 +12,7 @@ func before_each():
 	DataManager.load_all_data()
 
 	# Setup GameManager
-	GameManager = load("res://scripts/autoload/GameManager.gd").new()
+	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
 	GameManager._ready()
 

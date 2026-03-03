@@ -4,9 +4,23 @@ var GameManager: Node
 
 
 func before_each():
+	# Delete save file to prevent state pollution between tests
+	var save_path = "user://save.json"
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(save_path)
+	var backup_path = "user://save_backup.json"
+	if FileAccess.file_exists(backup_path):
+		DirAccess.remove_absolute(backup_path)
+
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
-	GameManager._ready()
+
+	# Reset all state to default values
+	GameManager.gold = 0
+	GameManager.level = 1
+	GameManager.experience = 0
+	GameManager.total_breads_crafted = 0
+	GameManager.total_gold_earned = 0
 
 
 func test_game_manager_starts_with_zero_gold():

@@ -12,7 +12,7 @@ func before_each():
 	DataManager.load_all_data()
 
 	# Setup ProductionManager
-	ProductionManager = load("res://scripts/autoload/ProductionManager.gd").new()
+	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
 
 	# Create BreadMenu scene

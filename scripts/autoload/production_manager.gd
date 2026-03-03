@@ -28,27 +28,81 @@ func set_data_manager(data_manager: Node):
 func _get_sales_manager() -> Node:
 	if _sales_manager:
 		return _sales_manager
-	return SalesManager
+	return get_node_or_null("/root/SalesManager")
 
 
 func _get_save_manager() -> Node:
 	if _save_manager:
 		return _save_manager
-	return SaveManager
+	return get_node_or_null("/root/SaveManager")
 
 
 func _get_data_manager() -> Node:
 	if _data_manager:
 		return _data_manager
-	return DataManager
+	return get_node_or_null("/root/DataManager")
 
 
 func _ready():
-	# 초기화 (autoload 시 자동 호출)
-	pass
+	# Wait for SaveManager to be ready and load data
+	call_deferred("_check_offline_progress")
 
 
-func _process(delta):
+func _check_offline_progress():
+	var save_mgr = _get_save_manager()
+	if not save_mgr or not save_mgr.current_save:
+		return
+
+	var current_time = Time.get_unix_time_from_system()
+	var offline_baking = save_mgr.current_save.active_baking.duplicate()
+
+	if offline_baking.is_empty():
+		return
+
+	print("ProductionManager: Checking offline progress for ", offline_baking.size(), " slots")
+
+	for slot_key in offline_baking.keys():
+		var slot_index = int(slot_key)
+		var data = offline_baking[slot_key]
+
+		# We need duration to check if it finished
+		# If duration is not in save, we recalculate it
+		var bread_id = data.get("bread_id", data.get("id"))  # handle both old and new keys
+		var start_time = data.get("start_time", 0.0)
+		var fairy_id = data.get("fairy_id", "")
+		var duration = data.get("duration", calculate_production_time(bread_id, fairy_id))
+
+		var elapsed = current_time - start_time
+		if elapsed >= duration:
+			# Finished offline
+			print(
+				"ProductionManager: Offline baking finished for ", bread_id, " in slot ", slot_index
+			)
+			# Add to inventory
+			var sales = _get_sales_manager()
+			if sales:
+				sales.add_bread_to_inventory(bread_id)
+
+			# Experience
+			if GameManager:
+				GameManager.add_experience(int(duration * 5))
+
+			# Remove from save
+			save_mgr.current_save.active_baking.erase(slot_key)
+		else:
+			# Still baking, resume in memory
+			active_baking[slot_index] = {
+				"bread_id": bread_id,
+				"start_time": start_time,
+				"duration": duration,
+				"fairy_id": fairy_id
+			}
+			print("ProductionManager: Resuming baking for ", bread_id, " in slot ", slot_index)
+
+	save_mgr.save_game()
+
+
+func _process(_delta):
 	var current_time = Time.get_unix_time_from_system()
 	var finished_slots = []
 
@@ -72,13 +126,19 @@ func start_baking(slot_index: int, bread_id: String, fairy_id: String = ""):
 		return
 
 	var duration = calculate_production_time(bread_id, fairy_id)
+	var start_time = Time.get_unix_time_from_system()
 
 	active_baking[slot_index] = {
-		"bread_id": bread_id,
-		"start_time": Time.get_unix_time_from_system(),
-		"duration": duration,
-		"fairy_id": fairy_id
+		"bread_id": bread_id, "start_time": start_time, "duration": duration, "fairy_id": fairy_id
 	}
+
+	# Save state for offline progress
+	var save_mgr = _get_save_manager()
+	if save_mgr and save_mgr.current_save:
+		save_mgr.current_save.active_baking[str(slot_index)] = {
+			"id": bread_id, "start_time": start_time, "duration": duration, "fairy_id": fairy_id
+		}
+		save_mgr.save_game()
 
 	emit_signal("baking_started", slot_index, bread_id, duration)
 	print("ProductionManager: Started baking ", bread_id, " in slot ", slot_index)
@@ -89,12 +149,23 @@ func finish_baking(slot_index: int):
 	var bread_id = data.bread_id
 
 	active_baking.erase(slot_index)
+
+	# Remove from save state
+	var save_mgr = _get_save_manager()
+	if save_mgr and save_mgr.current_save:
+		save_mgr.current_save.active_baking.erase(str(slot_index))
+		save_mgr.save_game()
+
 	emit_signal("baking_finished", slot_index, bread_id)
 
 	# Add to inventory (via SalesManager)
 	var sales = _get_sales_manager()
 	if sales:
 		sales.add_bread_to_inventory(bread_id)
+
+	# 경험치 추가 (생산 완료 시)
+	if GameManager:
+		GameManager.add_experience(int(data.duration * 5))  # 생산 시간당 5 XP
 
 	print("ProductionManager: Finished baking ", bread_id, " in slot ", slot_index)
 

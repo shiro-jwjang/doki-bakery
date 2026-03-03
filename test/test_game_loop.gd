@@ -16,23 +16,24 @@ func before_each():
 	DataManager.load_all_data()
 
 	# Setup ProductionManager
-	ProductionManager = load("res://scripts/autoload/ProductionManager.gd").new()
+	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
 
 	# Setup SalesManager
-	SalesManager = load("res://scripts/autoload/SalesManager.gd").new()
+	SalesManager = load("res://scripts/autoload/sales_manager.gd").new()
 	add_child_autofree(SalesManager)
 	SalesManager._ready()
 
 	# Setup GameManager
-	GameManager = load("res://scripts/autoload/GameManager.gd").new()
+	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
-	GameManager._ready()
 
-	# Clear any existing state
+	# Clear any existing state and reset to defaults
 	SalesManager.inventory.clear()
 	SalesManager.total_gold = 0
-	GameManager.player_gold = 0
+	GameManager.gold = 0
+	GameManager.level = 1
+	GameManager.experience = 0
 	ProductionManager.active_baking.clear()
 
 

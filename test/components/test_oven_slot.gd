@@ -12,8 +12,11 @@ func before_each():
 	DataManager.load_all_data()
 
 	# Setup ProductionManager
-	ProductionManager = load("res://scripts/autoload/ProductionManager.gd").new()
+	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
+	# Inject DataManager dependency into ProductionManager
+	if ProductionManager.has_method("set_data_manager"):
+		ProductionManager.set_data_manager(DataManager)
 
 	# Create OvenSlot scene
 	var scene = load("res://scenes/components/OvenSlot.tscn")
@@ -22,6 +25,10 @@ func before_each():
 	else:
 		# Fallback: create script directly if scene doesn't exist yet
 		OvenSlot = load("res://scripts/components/oven_slot.gd").new()
+
+	# Inject dependencies for testing
+	if OvenSlot.has_method("set_production_manager"):
+		OvenSlot.set_production_manager(ProductionManager)
 
 	add_child_autofree(OvenSlot)
 	OvenSlot._ready()
@@ -107,15 +114,15 @@ func test_oven_slot_has_progress_percentage():
 	OvenSlot.start_baking("white_bread")
 
 	var progress = OvenSlot.get_progress()
-	assert_ge(progress, 0.0, "Progress should be >= 0")
-	assert_le(progress, 1.0, "Progress should be <= 1")
+	assert_true(progress >= 0.0, "Progress should be >= 0")
+	assert_true(progress <= 1.0, "Progress should be <= 1")
 
 
 func test_oven_slot_shows_time_remaining():
 	OvenSlot.start_baking("white_bread")
 
 	var time_left = OvenSlot.get_time_remaining()
-	assert_ge(time_left, 0.0, "Time remaining should be >= 0")
+	assert_true(time_left >= 0.0, "Time remaining should be >= 0")
 
 
 func test_oven_slot_connects_to_production_manager():

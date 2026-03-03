@@ -12,8 +12,11 @@ func before_each():
 	DataManager.load_all_data()
 
 	# Setup SalesManager
-	SalesManager = load("res://scripts/autoload/SalesManager.gd").new()
+	SalesManager = load("res://scripts/autoload/sales_manager.gd").new()
 	add_child_autofree(SalesManager)
+	# Inject DataManager dependency into SalesManager
+	if SalesManager.has_method("set_data_manager"):
+		SalesManager.set_data_manager(DataManager)
 	SalesManager._ready()
 
 	# Create DisplaySlot scene
@@ -23,6 +26,12 @@ func before_each():
 	else:
 		# Fallback: create script directly if scene doesn't exist yet
 		DisplaySlot = load("res://scripts/components/display_slot.gd").new()
+
+	# Inject dependencies for testing
+	if DisplaySlot.has_method("set_sales_manager"):
+		DisplaySlot.set_sales_manager(SalesManager)
+	if DisplaySlot.has_method("set_data_manager"):
+		DisplaySlot.set_data_manager(DataManager)
 
 	add_child_autofree(DisplaySlot)
 	DisplaySlot._ready()
@@ -52,6 +61,8 @@ func test_display_slot_can_display_bread():
 
 func test_display_slot_can_sell_bread():
 	watch_signals(DisplaySlot)
+	# Add bread to SalesManager inventory first
+	SalesManager.add_bread_to_inventory("white_bread", 10)
 	DisplaySlot.display_bread("white_bread", 5)
 	DisplaySlot.sell_bread()
 
@@ -67,6 +78,8 @@ func test_display_slot_cannot_sell_when_empty():
 
 
 func test_display_slot_becomes_empty_when_quantity_zero():
+	# Add bread to SalesManager inventory first
+	SalesManager.add_bread_to_inventory("white_bread", 10)
 	DisplaySlot.display_bread("white_bread", 1)
 	DisplaySlot.sell_bread()
 
@@ -75,10 +88,13 @@ func test_display_slot_becomes_empty_when_quantity_zero():
 
 
 func test_display_slot_updates_inventory_on_sell():
+	# Add bread to SalesManager inventory first
+	SalesManager.add_bread_to_inventory("white_bread", 10)
 	DisplaySlot.display_bread("white_bread", 3)
 	DisplaySlot.sell_bread()
 
 	assert_true(SalesManager.inventory.has("white_bread"), "SalesManager should have white_bread")
+	assert_eq(SalesManager.inventory["white_bread"], 9, "Should have 9 white_bread left (10 - 1)")
 
 
 func test_display_slot_calculates_total_price():
@@ -107,6 +123,8 @@ func test_display_slot_can_clear_display():
 
 
 func test_display_slot_connects_to_sales_manager():
+	# Add bread to SalesManager inventory first
+	SalesManager.add_bread_to_inventory("white_bread", 10)
 	DisplaySlot.display_bread("white_bread", 3)
 	DisplaySlot.sell_bread()
 
@@ -114,3 +132,4 @@ func test_display_slot_connects_to_sales_manager():
 	assert_true(
 		SalesManager.inventory.has("white_bread"), "SalesManager inventory should be updated"
 	)
+	assert_eq(SalesManager.inventory["white_bread"], 9, "Should have 9 white_bread left")

@@ -6,7 +6,7 @@ var GameManager: Node
 
 func before_each():
 	# Setup GameManager
-	GameManager = load("res://scripts/autoload/GameManager.gd").new()
+	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
 	GameManager._ready()
 
