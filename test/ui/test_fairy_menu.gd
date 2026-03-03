@@ -43,14 +43,14 @@ func test_fairy_menu_displays_unlocked_fairies():
 
 
 func test_fairy_menu_shows_fairy_cost():
-	var fairy = DataManager.get_fairy("strawberry_fairy")
-	assert_not_null(fairy, "Should have strawberry_fairy")
+	var fairy = DataManager.get_fairy("fairy_strawberry")
+	assert_not_null(fairy, "Should have fairy_strawberry")
 	assert_gt(fairy.cost, 0, "Fairy should have a cost")
 
 
 func test_fairy_menu_emits_hired_signal():
 	watch_signals(FairyMenu)
-	FairyMenu.hire_fairy("strawberry_fairy")
+	FairyMenu.hire_fairy("fairy_strawberry")
 
 	assert_signal_emitted(FairyMenu, "fairy_hired", "Should emit fairy_hired signal")
 
@@ -59,7 +59,7 @@ func test_fairy_menu_checks_gold_before_hiring():
 	GameManager.player_gold = 300
 
 	# Strawberry fairy costs 500, should fail
-	var result = FairyMenu.hire_fairy("strawberry_fairy")
+	var result = FairyMenu.hire_fairy("fairy_strawberry")
 	assert_false(result, "Should not afford fairy with insufficient gold")
 
 
@@ -68,5 +68,5 @@ func test_fairy_menu_checks_level_requirement():
 	GameManager.player_level = 2
 
 	# Strawberry fairy requires level 3, should fail
-	var result = FairyMenu.hire_fairy("strawberry_fairy")
+	var result = FairyMenu.hire_fairy("fairy_strawberry")
 	assert_false(result, "Should not hire fairy without meeting level requirement")

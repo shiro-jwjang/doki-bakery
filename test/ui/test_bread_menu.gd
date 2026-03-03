@@ -95,20 +95,25 @@ func test_bread_menu_shows_bread_info():
 
 func test_bread_menu_connects_to_production_manager():
 	# BreadMenu.select_bread은 autoload ProductionManager에 start_baking을 호출함
+	# autoload ProductionManager의 상태를 초기화
+	var autoload_pm = get_node_or_null("/root/ProductionManager")
+	if autoload_pm:
+		autoload_pm.active_baking.clear()
+
 	BreadMenu.target_oven_slot = 0
 	BreadMenu.select_bread("white_bread", 0)
 
 	# autoload ProductionManager의 active_baking을 체크
-	var autoload_pm = get_node_or_null("/root/ProductionManager")
 	if autoload_pm:
 		assert_true(
 			autoload_pm.active_baking.has(0),
 			"ProductionManager should have baking started in slot 0"
 		)
 	else:
+		# autoload가 없으면 로컬 ProductionManager 사용 (폴백)
 		assert_true(
 			ProductionManager.active_baking.has(0),
-			"ProductionManager should have baking started in slot 0"
+			"ProductionManager should have baking started in slot 0 (local fallback)"
 		)
 
 

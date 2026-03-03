@@ -69,10 +69,12 @@ func test_upgrade_menu_checks_gold_before_purchase():
 	# UpgradeMenu는 autoload GameManager.gold를 참조하므로 autoload에 설정
 	var autoload_gm = get_node_or_null("/root/GameManager")
 	if autoload_gm:
+		# autoload가 있으면 거기에 설정
 		autoload_gm.gold = 50
 	else:
+		# autoload가 없으면 로컬 GameManager 사용
 		GameManager.gold = 50
 
 	# Oven speed upgrade costs 100 at level 0, should fail
 	var result = UpgradeMenu.purchase_upgrade("oven_speed")
-	assert_false(result, "Should not afford upgrade with insufficient gold")
+	assert_false(result, "Should not afford upgrade with insufficient gold (have 50, need 100)")
