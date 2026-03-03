@@ -44,13 +44,17 @@ enabled=PackedStringArray("res://addons/auto_reload/plugin.cfg", "res://addons/g
 
 [export]
 
-include_filter="*.gd,*.tscn,*.json,*.ogg,*.wav,*.png,*.svg"
+include_filter="*.gd,*.tscn,*.json,*.ogg,*.wav,*.png,*.svg,*.woff2"
 exclude_filter="*.import,*.md,.git/*"
 
 [gdscript]
 
 typing/static/type_hints=true
 typing/static/strict=true
+
+[gui]
+
+theme/custom="res://assets/themes/default_theme.tres"
 
 [plugins]
 
