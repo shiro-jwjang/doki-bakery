@@ -26,6 +26,7 @@ MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
 
 "Godot MCP Auto Reload"={"enabled": true}
 "Godot MCP Runtime"={"enabled": true}
+"Gut"={"enabled": true}
 
 [display]
 
