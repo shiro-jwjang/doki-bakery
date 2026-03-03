@@ -1,10 +1,7 @@
 # Godot-specific ignores
 .import/
-.godot/
+.godot/imported/
 *.translation
-
-# Godot 4+ specific
-.godot/
 
 # Imported files
 *.import
