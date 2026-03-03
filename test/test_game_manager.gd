@@ -15,7 +15,8 @@ func before_each():
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
 
-	# Reset all state to default values
+	# Skip _ready() which loads save data - we want fresh state for each test
+	# Reset all state to default values BEFORE any _ready() call
 	GameManager.gold = 0
 	GameManager.level = 1
 	GameManager.experience = 0

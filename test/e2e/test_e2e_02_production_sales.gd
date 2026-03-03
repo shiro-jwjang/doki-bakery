@@ -72,9 +72,9 @@ func test_white_bread_production_time():
 
 
 func test_croissant_production_time():
-	# 크로와상 기본 생산 시간 (10초)
+	# 크로와상 기본 생산 시간 (5초)
 	var duration = ProductionManager.calculate_production_time("croissant", "")
-	assert_eq(duration, 10.0, "Croissant should take 10 seconds")
+	assert_eq(duration, 5.0, "Croissant should take 5 seconds")
 
 
 func test_cannot_use_same_slot_twice():

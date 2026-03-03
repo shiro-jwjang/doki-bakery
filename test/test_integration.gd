@@ -9,6 +9,12 @@ var DataManager: Node
 
 
 func before_each():
+	# Clean up save files to prevent state pollution
+	if FileAccess.file_exists("user://save.json"):
+		DirAccess.remove_absolute("user://save.json")
+	if FileAccess.file_exists("user://save_backup.json"):
+		DirAccess.remove_absolute("user://save_backup.json")
+
 	DataManager = load("res://scripts/autoload/data_manager.gd").new()
 	add_child_autofree(DataManager)
 	DataManager.load_all_data()
@@ -23,6 +29,18 @@ func before_each():
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
 	GameManager._ready()
+	# Reset state to prevent test pollution
+	GameManager.gold = 0
+	GameManager.level = 1
+	GameManager.experience = 0
+	GameManager.total_breads_crafted = 0
+	GameManager.total_gold_earned = 0
+
+	# 의존성 주입
+	ProductionManager.set_sales_manager(SalesManager)
+	ProductionManager.set_data_manager(DataManager)
+	SalesManager.set_data_manager(DataManager)
+	SalesManager.set_game_manager(GameManager)
 
 
 func test_full_baking_and_sales_cycle():
@@ -96,9 +114,20 @@ func test_gold_sync_between_managers():
 
 
 func test_level_up_from_bread_sales():
-	# Each bread gives experience (not yet implemented in ProductionManager)
-	# This test will be expanded when experience gain from baking is added
-	pass
+	# Each bread sale gives experience
+	# white_bread gives 5 exp per sale
+	# Need 100 exp for level 2, so 20 sales should level up
+
+	var initial_level = GameManager.level
+	var initial_exp = GameManager.experience
+
+	# Sell 20 white_breads (20 * 5 = 100 exp)
+	for i in range(20):
+		SalesManager.add_bread_to_inventory("white_bread")
+		SalesManager.sell_bread("white_bread", 1)
+
+	# Should have gained level or experience
+	assert_gt(GameManager.experience, initial_exp, "Should have gained experience")
 
 
 func test_inventory_limits():

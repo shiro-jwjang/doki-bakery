@@ -29,6 +29,7 @@ corner_radius_bottom_left = 4
 corner_radius_bottom_right = 4
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1")
 layer = 10
 
 [node name="Control" type="Control" parent="."]
@@ -74,7 +75,7 @@ theme_override_colors/font_color = Color(0.9, 0.65, 0.15, 1)
 theme_override_colors/font_outline_color = Color(0.35, 0.25, 0.1, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 20
-text = "5 G"
+text = "0 G"
 
 [node name="LevelBox" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -93,12 +94,22 @@ theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 20
 text = "Lv.1"
 
+[node name="ExpBar" type="ProgressBar" parent="Control/PanelContainer/MarginContainer/HBoxContainer/LevelBox"]
+custom_minimum_size = Vector2(100, 16)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_exp_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_exp_fill")
+max_value = 100.0
+value = 0.0
+show_percentage = false
+
 [node name="ExpBox" type="VBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 2
+visible = false
 
-[node name="ExpBar" type="ProgressBar" parent="Control/PanelContainer/MarginContainer/HBoxContainer/ExpBox"]
+[node name="ExpBar2" type="ProgressBar" parent="Control/PanelContainer/MarginContainer/HBoxContainer/ExpBox"]
 custom_minimum_size = Vector2(180, 16)
 layout_mode = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_exp_bg")
@@ -113,3 +124,28 @@ theme_override_colors/font_color = Color(0.8, 0.7, 0.6, 1)
 theme_override_font_sizes/font_size = 12
 text = "EXP: 0 / 100"
 horizontal_alignment = 1
+
+[node name="InventoryBox" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="InvIcon" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/InventoryBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "🧺"
+
+[node name="InvLabel" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/InventoryBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 20
+text = "0"
+
+[node name="TimeBox" type="HBoxContainer" parent="Control/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TimeLabel" type="Label" parent="Control/PanelContainer/MarginContainer/HBoxContainer/TimeBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 20
+text = "🕐 00:00"

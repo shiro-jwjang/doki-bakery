@@ -46,6 +46,9 @@ func _update_slots() -> void:
 		var bread_id = BREADS[i]
 		var bread_name = BREAD_NAMES.get(bread_id, bread_id)
 
+		# 라벨 노드 찾기
+		var label = _slots[i].get_node_or_null("VBox/Label")
+
 		# 데이터 매니저에서 잠금 레벨 확인
 		var unlock_level = 1
 		if dm and dm.has_method("get_bread_data"):
@@ -56,16 +59,19 @@ func _update_slots() -> void:
 		var current_level = gm.level
 
 		if current_level < unlock_level:
-			_slots[i].text = "%s\n🔒 Lv.%d" % [bread_name, unlock_level]
+			if label:
+				label.text = "%s\n🔒 Lv.%d" % [bread_name, unlock_level]
 			_slots[i].disabled = true
 		elif pm.has_method("is_producing") and pm.is_producing(bread_id):
 			var remaining = (
 				pm.get_remaining_time(bread_id) if pm.has_method("get_remaining_time") else 0.0
 			)
-			_slots[i].text = "%s\n%.1f초" % [bread_name, remaining]
+			if label:
+				label.text = "%s\n%.1f초" % [bread_name, remaining]
 			_slots[i].disabled = true
 		else:
-			_slots[i].text = "%s\n생산 시작" % bread_name
+			if label:
+				label.text = bread_name
 			_slots[i].disabled = false
 
 

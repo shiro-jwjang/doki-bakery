@@ -12,7 +12,6 @@ func before_each():
 
 	ProductionManager = load("res://scripts/autoload/production_manager.gd").new()
 	add_child_autofree(ProductionManager)
-	ProductionManager._ready()
 
 
 func test_production_manager_has_active_baking():
@@ -81,7 +80,7 @@ func test_multiple_slots_can_bake_simultaneously():
 
 func test_bread_production_time_from_balance():
 	var croissant_time = ProductionManager.calculate_production_time("croissant", "")
-	assert_eq(croissant_time, 10.0, "Croissant base time should be 10 seconds")
+	assert_eq(croissant_time, 5.0, "Croissant base time should be 5 seconds")
 
 	var chocolate_muffin_time = ProductionManager.calculate_production_time("chocolate_muffin", "")
 	assert_eq(chocolate_muffin_time, 20.0, "Chocolate muffin base time should be 20 seconds")

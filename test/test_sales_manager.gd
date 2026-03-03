@@ -12,7 +12,6 @@ func before_each():
 
 	SalesManager = load("res://scripts/autoload/sales_manager.gd").new()
 	add_child_autofree(SalesManager)
-	SalesManager._ready()
 
 
 func test_sales_manager_has_inventory():

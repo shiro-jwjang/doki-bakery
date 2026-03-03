@@ -12,9 +12,9 @@ class_name BakeryMain
 @onready var display_slot_0: DisplaySlot = $GameArea/RightPanel/DisplaySlots/DisplaySlot0
 @onready var display_slot_1: DisplaySlot = $GameArea/RightPanel/DisplaySlots/DisplaySlot1
 
-@onready var bread_menu: BasePanel = $MenuContainer/BreadMenu
-@onready var upgrade_menu: BasePanel = $MenuContainer/UpgradeMenu
-@onready var fairy_menu: BasePanel = $MenuContainer/FairyMenu
+@onready var bread_menu: Control = $MenuContainer/BreadMenu
+@onready var upgrade_menu: Control = $MenuContainer/UpgradeMenu
+@onready var fairy_menu: Control = $MenuContainer/FairyMenu
 
 var selected_oven_slot: int = -1
 

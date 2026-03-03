@@ -16,11 +16,15 @@ func before_each():
 	# Setup SaveManager
 	SaveManager = load("res://scripts/autoload/save_manager.gd").new()
 	add_child_autofree(SaveManager)
-	SaveManager._ready()
 
 	# Setup GameManager
 	GameManager = load("res://scripts/autoload/game_manager.gd").new()
 	add_child_autofree(GameManager)
+
+	# Reset state to defaults
+	GameManager.gold = 0
+	GameManager.level = 1
+	GameManager.experience = 0
 
 
 func test_save_manager_stores_last_save_time():

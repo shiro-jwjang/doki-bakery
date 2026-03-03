@@ -16,6 +16,7 @@ class_name SaveData
 @export var upgrade_levels: Dictionary = {}  # {upgrade_id: level}
 
 @export var inventory: Dictionary = {}  # {ingredient_id: amount}
+@export var active_baking: Dictionary = {}  # {slot_index: { "id": bread_id, "start_time": unix_timestamp }}
 
 @export var total_breads_crafted: int = 0
 @export var total_gold_earned: int = 0

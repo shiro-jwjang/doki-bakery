@@ -32,7 +32,7 @@ func test_bread_menu_has_close_button():
 
 
 func test_bread_menu_has_bread_list():
-	var bread_list = BreadMenu.get_node_or_null("Panel/VBoxContainer/BreadList")
+	var bread_list = BreadMenu.get_node_or_null("Panel/VBoxContainer/ScrollContainer/BreadList")
 	assert_not_null(bread_list, "Should have BreadList container")
 
 
@@ -63,9 +63,17 @@ func test_bread_menu_emits_bread_selected_signal():
 
 
 func test_bread_menu_hides_after_selection():
+	# Set visible first
+	BreadMenu.show()
+
 	watch_signals(BreadMenu)
+	BreadMenu.target_oven_slot = 0
 	BreadMenu.select_bread("white_bread", 0)
 
+	# Menu should hide after selection
+	assert_false(BreadMenu.visible, "Menu should be hidden after selecting bread")
+
+	# Signal should still be emitted correctly
 	var signal_params = get_signal_parameters(BreadMenu, "bread_selected", 0)
 	assert_eq(signal_params[0], "white_bread", "First param should be bread_id")
 	assert_eq(signal_params[1], 0, "Second param should be oven_slot_index")
@@ -82,8 +90,15 @@ func test_bread_menu_shows_bread_info():
 
 func test_bread_menu_connects_to_production_manager():
 	# Selecting a bread should start baking in ProductionManager
+	# BreadMenu needs ProductionManager to be accessible via autoload path
+	# Since we're in a test environment, we need to ensure the connection works
+
+	# Use the target_oven_slot that BreadMenu expects
+	BreadMenu.target_oven_slot = 0
 	BreadMenu.select_bread("white_bread", 0)
 
+	# Note: This test may fail if BreadMenu can't access ProductionManager
+	# The actual integration is tested in test_integration.gd
 	assert_true(
 		ProductionManager.active_baking.has(0),
 		"ProductionManager should have baking started in slot 0"
