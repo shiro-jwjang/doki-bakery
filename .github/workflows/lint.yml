@@ -78,6 +78,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Godot import
+        uses: actions/cache@v4
+        with:
+          path: .godot/imported
+          key: godot-import-${{ runner.os }}-${{ hashFiles('**/*.gd', '**/*.tscn', '**/*.tres', 'project.godot') }}
+          restore-keys: |
+            godot-import-${{ runner.os }}-
+
       - name: Install Godot ${{ env.GODOT_VERSION }}
         run: |
           wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
@@ -85,10 +93,7 @@ jobs:
           sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
           sudo chmod +x /usr/local/bin/godot
 
-      - name: Import project (1st pass - plugin registration)
-        run: timeout 120 godot --headless --import 2>&1 || true
-
-      - name: Import project (2nd pass - full import)
+      - name: Import project
         run: timeout 120 godot --headless --import 2>&1 || true
 
       - name: Initialize editor (load plugins)
