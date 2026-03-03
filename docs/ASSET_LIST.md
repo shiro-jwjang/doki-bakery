@@ -26,10 +26,10 @@
 
 | ID | 이름 | 설명 | 현재 상태 | 필요 포맷 |
 |---|---|---|---|---|
-| `fairy_flour` | 밀가루 요정 | 기본 파티시에 캐릭터 | 🔄 생성 중 (PixelLab) | 64×64 PNG |
-| `fairy_strawberry` | 딸기 요정 | 딸기 테마 캐릭터 | 🔄 생성 중 (PixelLab) | 64×64 PNG |
-| `fairy_chocolate` | 초코 요정 | 초코 테마 캐릭터 | 🔄 생성 중 (PixelLab) | 64×64 PNG |
-| `fairy_mint` | 민트 요정 | 민트 테마 캐릭터 | 🔄 생성 중 (PixelLab) | 64×64 PNG |
+| `fairy_flour` | 밀가루 요정 | 기본 파티시에 캐릭터 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `fairy_strawberry` | 딸기 요정 | 딸기 테마 캐릭터 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `fairy_chocolate` | 초코 요정 | 초코 테마 캐릭터 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `fairy_mint` | 민트 요정 | 민트 테마 캐릭터 | ✅ 완료 (PixelLab) | 64×64 PNG |
 
 **요구사항**:
 
@@ -46,11 +46,11 @@
 
 | ID | 이름 | 티어 | 현재 상태 | 필요 포맷 |
 |---|---|---|---|---|
-| `white_bread` | 식빵 | 1 | ⚠️ 매칭 안됨 | 16x16 PNG (기본) |
-| `croissant` | 크루아상 | 2 | ✅ 존재 | 16x16 PNG (기본) |
-| `chocolate_muffin` | 초코 머핀 | 3 | ❌ 없음 | 16x16 PNG (기본) |
-| `strawberry_cake` | 딸기 케이크 | 4 | ⚠️ cake.png 있음 | 16x16 PNG (기본) |
-| `macaron` | 마카롱 | 5 | ✅ 존재 | 16x16 PNG (기본) |
+| `white_bread` | 식빵 | 1 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `croissant` | 크루아상 | 2 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `chocolate_muffin` | 초코 머핀 | 3 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `strawberry_cake` | 딸기 케이크 | 4 | ✅ 완료 (PixelLab) | 64×64 PNG |
+| `macaron` | 마카롱 | 5 | ✅ 완료 (PixelLab) | 64×64 PNG |
 
 **요구사항**:
 
