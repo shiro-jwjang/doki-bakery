@@ -93,11 +93,14 @@ jobs:
           sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
           sudo chmod +x /usr/local/bin/godot
 
-      - name: Import project
-        run: timeout 120 godot --headless --import 2>&1 || true
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
 
-      - name: Initialize editor (load plugins)
-        run: timeout 60 godot --headless --editor --quit 2>&1 || true
+      - name: Initialize Godot project (editor + plugin load)
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 &
+          DISPLAY=:99 timeout 60 godot --editor --quit 2>&1 || true
+          kill %1 2>/dev/null || true
 
       - name: Run GUT tests
         run: |
