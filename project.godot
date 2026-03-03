@@ -28,7 +28,7 @@ DataManager="*res://scripts/autoload/data_manager.gd"
 GameManager="*res://scripts/autoload/game_manager.gd"
 ProductionManager="*res://scripts/autoload/production_manager.gd"
 SalesManager="*res://scripts/autoload/sales_manager.gd"
-MCPRuntime="*uid://crwcqgc2o0vtr"
+MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
 
 [display]
 
