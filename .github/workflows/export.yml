@@ -12,46 +12,41 @@ on:
         default: '0.1.0'
 
 env:
-  GODOT_VERSION: 4.3
+  GODOT_VERSION: 4.2.2
 
 jobs:
   export:
     runs-on: ubuntu-latest
+    container: barichello/godot-ci:4.2.2
     strategy:
       matrix:
         target: [windows, linux, mac]
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Setup Godot
-        uses: lihop/setup-godot@v1
-        with:
-          version: ${{ env.GODOT_VERSION }}
-          export-templates: true
-      
+
       - name: Import assets
         run: godot --headless --import
-      
+
       - name: Export (Windows)
         if: matrix.target == 'windows'
         run: |
           mkdir -p builds/windows
           godot --headless --export-release "Windows Desktop" builds/windows/doki-bakery.exe
-      
+
       - name: Export (Linux)
         if: matrix.target == 'linux'
         run: |
           mkdir -p builds/linux
           godot --headless --export-release "Linux/X11" builds/linux/doki-bakery
-      
+
       - name: Export (macOS)
         if: matrix.target == 'mac'
         run: |
           mkdir -p builds/mac
           godot --headless --export-release "macOS" builds/mac/doki-bakery.zip
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -10,32 +10,32 @@ jobs:
   lint:
     name: Lint & Format Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          
+
       - name: Install gdtoolkit
         run: |
           pip install gdtoolkit
-          
+
       - name: Check GDScript formatting
         run: |
           echo "Checking GDScript formatting..."
           gdformat --check scripts/ || (echo "❌ Code is not formatted. Run 'gdformat scripts/' to fix." && exit 1)
           echo "✅ All GDScript files are properly formatted"
-          
+
       - name: Run GDScript linter
         run: |
           echo "Running GDScript linter..."
           gdlint scripts/ || (echo "⚠️ Linter warnings found. Please review and fix." && exit 0)
           echo "✅ No linter errors found"
-          
+
       - name: Check JSON files
         run: |
           echo "Checking JSON files..."
@@ -46,13 +46,32 @@ jobs:
     name: Type Check (Godot)
     runs-on: ubuntu-latest
     container: barichello/godot-ci:4.2.2
-    
+    timeout-minutes: 10
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Import project and check scripts
         run: |
-          godot --headless --import
-          godot --headless --check-only --script-check
+          timeout 300 godot --headless --import || true
+          timeout 120 godot --headless --check-only --script-check
           echo "✅ Script validation complete"
+
+  test:
+    name: GUT Tests
+    runs-on: ubuntu-latest
+    container: barichello/godot-ci:4.2.2
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Import project
+        run: timeout 300 godot --headless --import || true
+
+      - name: Run GUT tests
+        run: |
+          godot --headless -s addons/gut/gut_cmdln.gd
+          echo "✅ Tests complete"
