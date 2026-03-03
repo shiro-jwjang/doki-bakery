@@ -26,6 +26,7 @@ repos:
       - id: check-merge-conflict
       - id: check-added-large-files
         args: ['--maxkb=500']
+        exclude: \.godot/imported/
 
   # Markdown formatting
   - repo: https://github.com/igorshubovych/markdownlint-cli
