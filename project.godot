@@ -1,31 +1,34 @@
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
-; but we're creating it programmatically for the initial setup.
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="DokinBakery"
 config/description="두근두근 베이커리 - Doki-Doki Bakery"
 run/main_scene="res://scenes/title.tscn"
-config/features=PackedStringArray("4.3", "Compatibility")
+config/features=PackedStringArray("4.6")
 config/icon="res://icon.svg"
 
 [autoload]
+
 UIManager="*res://scripts/autoload/ui_manager.gd"
 SaveManager="*res://scripts/autoload/save_manager.gd"
 DataManager="*res://scripts/autoload/data_manager.gd"
-
 GameManager="*res://scripts/autoload/game_manager.gd"
 ProductionManager="*res://scripts/autoload/production_manager.gd"
 SalesManager="*res://scripts/autoload/sales_manager.gd"
-MCPRuntime="*res://addons/godot_mcp_runtime/mcp_runtime_autoload.gd"
-
-[plugins]
-
-"Godot MCP Auto Reload"={"enabled": true}
-"Godot MCP Runtime"={"enabled": true}
+MCPRuntime="*uid://crwcqgc2o0vtr"
 
 [display]
 
@@ -35,14 +38,29 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
-[rendering]
+[editor_plugins]
 
-renderer/rendering_method="gl_compatibility"
+enabled=PackedStringArray("res://addons/auto_reload/plugin.cfg", "res://addons/godot_mcp_editor/plugin.cfg", "res://addons/godot_mcp_runtime/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [export]
 
 include_filter="*.gd,*.tscn,*.json,*.ogg,*.wav,*.png,*.svg"
 exclude_filter="*.import,*.md,.git/*"
+
+[gdscript]
+
+#Typecheckingtyping/strict=true
+typing/static/type_hints=true
+typing/static/strict=true
+
+[plugins]
+
+"Godot MCP Auto Reload"={
+"enabled": true
+}
+"Godot MCP Runtime"={
+"enabled": true
+}
 
 [preset.0]
 
@@ -286,9 +304,6 @@ ssh_remote_deploy/extra_args_scp=""
 ssh_remote_deploy/run_script=""
 ssh_remote_deploy/cleanup_script=""
 
-[gdscript]
+[rendering]
 
-# Type checking
-typing/strict=true
-typing/static/type_hints=true
-typing/static/strict=true
+renderer/rendering_method="gl_compatibility"

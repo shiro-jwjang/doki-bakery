@@ -12,9 +12,13 @@ class_name ProductionPanel
 var _slots: Array[Button] = []
 var _production_manager: Node = null
 
-const BREADS := ["white_bread", "croissant", "cake", "cookie", "madeleine"]
+const BREADS := ["white_bread", "croissant", "chocolate_muffin", "macaron", "strawberry_cake"]
 const BREAD_NAMES := {
-	"white_bread": "식빵", "croissant": "크로와상", "cake": "케이크", "cookie": "쿠키", "madeleine": "마들렌"
+	"white_bread": "식빵",
+	"croissant": "크로와상",
+	"chocolate_muffin": "초코 머핀",
+	"macaron": "마카롱",
+	"strawberry_cake": "딸기 케이크"
 }
 
 
@@ -51,10 +55,10 @@ func _update_slots() -> void:
 
 		# 데이터 매니저에서 잠금 레벨 확인
 		var unlock_level = 1
-		if dm and dm.has_method("get_bread_data"):
-			var bread_data = dm.get_bread_data(bread_id)
+		if dm and dm.has_method("get_bread"):
+			var bread_data = dm.get_bread(bread_id)
 			if bread_data:
-				unlock_level = bread_data.get("unlock_level", 1)
+				unlock_level = bread_data.unlock_level
 
 		var current_level = gm.level
 

@@ -75,6 +75,10 @@ func _create_bread_item(bread_data: BreadData) -> Control:
 	icon.custom_minimum_size = Vector2(40, 40)
 	icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	if bread_data.icon and ResourceLoader.exists(bread_data.icon):
+		var tex = load(bread_data.icon)
+		if tex:
+			icon.texture = tex
 	container.add_child(icon)
 
 	# Info

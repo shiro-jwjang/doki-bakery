@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://title_scene"]
+[gd_scene format=3 uid="uid://dv8d2bc5pmv50"]
 
-[ext_resource type="Script" path="res://scripts/title.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/images/icons/bread.png" id="2"]
+[ext_resource type="Script" uid="uid://8kpy85rtyoib" path="res://scripts/title.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cl807hpduixq7" path="res://assets/images/icons/bread.png" id="2"]
 
-[node name="Title" type="Control"]
+[node name="Title" type="Control" unique_id=367979035]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1450686453]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.98, 0.94, 0.88, 1)
 
-[node name="BreadIcon" type="TextureRect" parent="."]
+[node name="BreadIcon" type="TextureRect" parent="." unique_id=394629259]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -38,7 +38,7 @@ texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="TitleLabel" type="Label" parent="."]
+[node name="TitleLabel" type="Label" parent="." unique_id=1312353695]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -53,7 +53,7 @@ theme_override_font_sizes/font_size = 48
 text = "Doki-Doki Bakery"
 horizontal_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="."]
+[node name="SubtitleLabel" type="Label" parent="." unique_id=1133039589]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -68,7 +68,7 @@ theme_override_font_sizes/font_size = 18
 text = "두근두근 베이커리"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="."]
+[node name="StartButton" type="Button" parent="." unique_id=2053014995]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -81,7 +81,7 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 24
 text = "시작하기"
 
-[node name="ContinueButton" type="Button" parent="."]
+[node name="ContinueButton" type="Button" parent="." unique_id=998662729]
 visible = false
 layout_mode = 1
 anchors_preset = 5

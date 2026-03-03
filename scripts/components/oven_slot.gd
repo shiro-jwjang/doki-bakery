@@ -79,6 +79,13 @@ func start_baking(bread_id: String) -> bool:
 	baking_duration = pm.calculate_production_time(bread_id, "")
 	state = "baking"
 
+	# Load bread icon
+	var dm = get_node_or_null("/root/DataManager")
+	if dm and bread_icon:
+		var bread_data = dm.get_bread(bread_id)
+		if bread_data and bread_data.icon and ResourceLoader.exists(bread_data.icon):
+			bread_icon.texture = load(bread_data.icon)
+
 	# Start baking in ProductionManager
 	pm.start_baking(slot_index, bread_id)
 
