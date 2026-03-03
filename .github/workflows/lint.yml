@@ -91,6 +91,9 @@ jobs:
       - name: Import project (2nd pass - full import)
         run: timeout 120 godot --headless --import 2>&1 || true
 
+      - name: Initialize editor (load plugins)
+        run: timeout 60 godot --headless --editor --quit 2>&1 || true
+
       - name: Run GUT tests
         run: |
           godot --headless -s addons/gut/gut_cmdln.gd 2>&1
