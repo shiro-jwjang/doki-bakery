@@ -64,7 +64,8 @@ jobs:
 
       - name: Import project and check scripts
         run: |
-          timeout 300 godot --headless --import 2>&1 || true
+          timeout 120 godot --headless --import 2>&1 || true
+          timeout 120 godot --headless --import 2>&1 || true
           timeout 120 godot --headless --check-only --script-check 2>&1
           echo "✅ Script validation complete"
 
@@ -84,8 +85,11 @@ jobs:
           sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
           sudo chmod +x /usr/local/bin/godot
 
-      - name: Import project
-        run: timeout 300 godot --headless --import 2>&1 || true
+      - name: Import project (1st pass - plugin registration)
+        run: timeout 120 godot --headless --import 2>&1 || true
+
+      - name: Import project (2nd pass - full import)
+        run: timeout 120 godot --headless --import 2>&1 || true
 
       - name: Run GUT tests
         run: |
