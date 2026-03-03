@@ -46,7 +46,7 @@ jobs:
           echo "✅ All JSON files are valid"
 
   type-check:
-    name: Type Check (Godot ${{ env.GODOT_VERSION }})
+    name: Type Check (Godot 4.3)
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -69,7 +69,7 @@ jobs:
           echo "✅ Script validation complete"
 
   test:
-    name: GUT Tests (Godot ${{ env.GODOT_VERSION }})
+    name: GUT Tests (Godot 4.3)
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
