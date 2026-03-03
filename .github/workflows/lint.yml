@@ -93,12 +93,9 @@ jobs:
           sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
           sudo chmod +x /usr/local/bin/godot
 
-      - name: Import project resources
-        run: |
-          timeout 120 godot --headless --import 2>&1 || true
-          echo "✅ Import complete"
-
       - name: Run GUT tests
         run: |
+          ls -la .godot/ | head -10
+          cat .godot/global_script_class_cache.cfg | grep -i gut | head -5
           godot --headless -s addons/gut/gut_cmdln.gd 2>&1
           echo "✅ Tests complete"
