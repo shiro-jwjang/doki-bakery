@@ -75,17 +75,20 @@ func _update_slots() -> void:
 				if b_data:
 					bread_name = b_data.name
 					if b_data.icon and ResourceLoader.exists(b_data.icon):
-						icon_rect.texture = load(b_data.icon)
+						icon_rect.texture = Load(b_data.icon)
 
 			if remaining > 0:
-				label.text = "%s\n%.1f초" % [bread_name, remaining]
+				label.text = "%s\n🔥 %.1f초" % [bread_name, remaining]
+				# 생산 중 indicator: 주황색 틴트
+				_slots[i].modulate = Color(1.0, 0.7, 0.3, 1.0)
 			else:
 				label.text = "%s\n완료!" % bread_name
+				_slots[i].modulate = Color.WHITE
 		else:
 			# 3. 비어있는 상태 (확실히 초기화)
 			label.text = "슬롯 %d\n(비어있음)" % (i + 1)
 			icon_rect.texture = null # 아이콘 제거하여 빵이 계속 보이는 현상 방지
-			# 아이콘 대신 투명한 상태나 기본 배경을 원하시면 여기에 추가 로직 가능
+			_slots[i].modulate = Color.WHITE
 
 
 func _on_slot_pressed(slot_index: int) -> void:

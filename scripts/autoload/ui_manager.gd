@@ -11,6 +11,12 @@ var _screen_stack: Array[Control] = []
 
 
 func _ready() -> void:
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
+	# 한국어 폰트 적용
+	_apply_korean_font()
+
 	# 페이드 효과용 ColorRect 생성
 	_fade_rect = ColorRect.new()
 	_fade_rect.color = Color.BLACK
@@ -97,3 +103,14 @@ func _fade_in(duration: float = 0.2) -> void:
 	var tween = create_tween()
 	tween.tween_property(_fade_rect, "modulate:a", 0.0, duration)
 	await tween.finished
+
+
+func _apply_korean_font() -> void:
+	var font_path := "res://assets/fonts/NotoSansKR-Regular.ttf"
+	if not ResourceLoader.exists(font_path):
+		return
+	var font: FontFile = load(font_path)
+	if not font:
+		return
+	ThemeDB.fallback_font = font
+	ThemeDB.fallback_font_size = 16

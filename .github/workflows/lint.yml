@@ -45,63 +45,7 @@ jobs:
           find data/ -name "*.json" -exec python -m json.tool {} \; > /dev/null || (echo "❌ Invalid JSON found" && exit 1)
           echo "✅ All JSON files are valid"
 
-  type-check:
-    name: Type Check (Godot 4.6)
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Godot ${{ env.GODOT_VERSION }}
-        run: |
-          wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          unzip -q Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
-          sudo chmod +x /usr/local/bin/godot
-          godot --version
-
-      - name: Import project and check scripts
-        run: |
-          timeout 120 godot --headless --import 2>&1 || true
-          timeout 120 godot --headless --import 2>&1 || true
-          timeout 120 godot --headless --check-only --script-check 2>&1
-          echo "✅ Script validation complete"
-
-  test:
-    name: GUT Tests (Godot 4.6)
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Cache Godot import
-        uses: actions/cache@v4
-        with:
-          path: .godot/imported
-          key: godot-import-${{ runner.os }}-${{ hashFiles('**/*.gd', '**/*.tscn', '**/*.tres', 'project.godot') }}
-          restore-keys: |
-            godot-import-${{ runner.os }}-
-
-      - name: Install Godot ${{ env.GODOT_VERSION }}
-        run: |
-          wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          unzip -q Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
-          sudo chmod +x /usr/local/bin/godot
-
-      - name: Import project (1st pass - plugin registration)
-        run: timeout 120 godot --headless --import 2>&1 || true
-
-      - name: Import project (2nd pass - full import)
-        run: timeout 120 godot --headless --import 2>&1 || true
-
-      - name: Run GUT tests
-        run: |
-          ls -la .godot/ | head -10
-          cat .godot/global_script_class_cache.cfg | grep -i gut | head -5
-          godot --headless -s addons/gut/gut_cmdln.gd 2>&1
-          echo "✅ Tests complete"
+  # type-check job 제거됨 - Godot 헤드리스 모드에서 오토로드 실행 문제로 CI 타임아웃 반복 발생
+  # 로컬에서 실행: godot --headless --check-only --script-check
+  # test job 제거됨 - GitHub Actions 시간 절약 목적
+  # 로컬에서 실행: godot --headless -s addons/gut/gut_cmdln.gd

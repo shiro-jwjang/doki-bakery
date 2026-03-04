@@ -3,8 +3,16 @@
 .godot/
 *.translation
 
-# Imported files
-# *.import (Keep these in Git for consistent asset settings)
+# Imported files (폰트 제외)
+*.import
+!assets/fonts/*.import
+
+# Godot imported cache (폰트는 포함)
+.godot/imported/
+!.godot/imported/
+!.godot/imported/*NotoSansKR*
+!.godot/imported/*NotoSansKR*.fontdata
+!.godot/imported/*NotoSansKR*.md5
 
 # User-specific files
 user://

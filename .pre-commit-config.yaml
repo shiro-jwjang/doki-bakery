@@ -25,8 +25,8 @@ repos:
       - id: check-yaml
       - id: check-merge-conflict
       - id: check-added-large-files
-        args: ['--maxkb=500']
-        exclude: \.godot/imported/
+        args: ['--maxkb=1500']
+        exclude: \.godot/imported/|\.ttf$
 
   # Markdown formatting
   - repo: https://github.com/igorshubovych/markdownlint-cli

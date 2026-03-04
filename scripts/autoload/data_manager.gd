@@ -14,6 +14,9 @@ var _data_path: String = "res://data"
 
 
 func _ready() -> void:
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
 	load_all_data()
 
 
