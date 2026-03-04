@@ -48,6 +48,9 @@ var total_gold_earned: int = 0
 
 
 func _ready() -> void:
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
 	print("🎮 Doki-Doki Bakery initialized!")
 	_load_game()
 

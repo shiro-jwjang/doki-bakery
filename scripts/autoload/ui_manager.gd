@@ -11,6 +11,9 @@ var _screen_stack: Array[Control] = []
 
 
 func _ready() -> void:
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
 	# 한국어 폰트 동적 로드
 	_apply_korean_font()
 

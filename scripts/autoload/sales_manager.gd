@@ -32,6 +32,9 @@ func _get_game_manager() -> Node:
 
 
 func _ready():
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
 	# Initial gold from SaveData (if exists)
 	total_gold = 0  # Default starting gold
 

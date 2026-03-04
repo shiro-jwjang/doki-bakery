@@ -44,6 +44,9 @@ func _get_data_manager() -> Node:
 
 
 func _ready():
+	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
+		return
+
 	# Wait for SaveManager to be ready and load data
 	call_deferred("_check_offline_progress")
 
