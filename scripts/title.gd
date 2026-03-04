@@ -25,7 +25,7 @@ func _ready() -> void:
 
 
 func _add_version_label() -> void:
-	var version := ProjectSettings.get_setting("application/version", "0.1.0")
+	var version: String = ProjectSettings.get_setting("application/version", "0.1.0")
 	var label := Label.new()
 	label.name = "VersionLabel"
 	label.text = "v%s" % version
