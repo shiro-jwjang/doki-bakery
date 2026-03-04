@@ -45,33 +45,7 @@ jobs:
           find data/ -name "*.json" -exec python -m json.tool {} \; > /dev/null || (echo "❌ Invalid JSON found" && exit 1)
           echo "✅ All JSON files are valid"
 
-  type-check:
-    name: Type Check (Godot 4.6)
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Install Godot ${{ env.GODOT_VERSION }}
-        run: |
-          wget -q https://github.com/godotengine/godot/releases/download/${{ env.GODOT_RELEASE }}/Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          unzip -q Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64.zip
-          sudo mv Godot_v${{ env.GODOT_RELEASE }}_linux.x86_64 /usr/local/bin/godot
-          sudo chmod +x /usr/local/bin/godot
-          godot --version
-
-      - name: Import project and check scripts
-        run: |
-          # 먼저 GUT 포함해서 임포트 → class_names 등록
-          timeout 180 godot --headless --import 2>&1 || true
-          # addons/는 서드파티 코드이므로 type-check에서 제외 (import 후에 적용)
-          touch addons/gut/.gdignore
-          timeout 180 godot --headless --check-only --script-check 2>&1
-          echo "✅ Script validation complete"
-
+  # type-check job 제거됨 - Godot 헤드리스 모드에서 오토로드 실행 문제로 CI 타임아웃 반복 발생
+  # 로컬에서 실행: godot --headless --check-only --script-check
   # test job 제거됨 - GitHub Actions 시간 절약 목적
   # 로컬에서 실행: godot --headless -s addons/gut/gut_cmdln.gd
