@@ -66,9 +66,10 @@ jobs:
 
       - name: Import project and check scripts
         run: |
-          # addons/는 서드파티 코드이므로 type-check에서 제외
-          touch addons/gut/.gdignore
+          # 먼저 GUT 포함해서 임포트 → class_names 등록
           timeout 180 godot --headless --import 2>&1 || true
+          # addons/는 서드파티 코드이므로 type-check에서 제외 (import 후에 적용)
+          touch addons/gut/.gdignore
           timeout 180 godot --headless --check-only --script-check 2>&1
           echo "✅ Script validation complete"
 
