@@ -75,7 +75,7 @@ func _update_slots() -> void:
 				if b_data:
 					bread_name = b_data.name
 					if b_data.icon and ResourceLoader.exists(b_data.icon):
-						icon_rect.texture = Load(b_data.icon)
+						icon_rect.texture = load(b_data.icon)
 
 			if remaining > 0:
 				label.text = "%s\n🔥 %.1f초" % [bread_name, remaining]

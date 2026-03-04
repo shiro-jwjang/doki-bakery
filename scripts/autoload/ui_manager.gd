@@ -106,11 +106,15 @@ func _fade_in(duration: float = 0.2) -> void:
 
 
 func _apply_korean_font() -> void:
-	var font_path := "res://assets/fonts/NotoSansKR-Regular.ttf"
-	if not ResourceLoader.exists(font_path):
+	var korean_font := preload("res://assets/fonts/NotoSansKR-Regular.ttf")
+	var emoji_font := preload("res://assets/fonts/NotoColorEmoji-Regular.ttf")
+
+	if not korean_font:
 		return
-	var font: FontFile = load(font_path)
-	if not font:
-		return
-	ThemeDB.fallback_font = font
+
+	# 이모지 폰트를 폴백으로 추가
+	if emoji_font:
+		korean_font.fallbacks = [emoji_font]
+
+	ThemeDB.fallback_font = korean_font
 	ThemeDB.fallback_font_size = 16
