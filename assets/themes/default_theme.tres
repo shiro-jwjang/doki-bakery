@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://default_theme"]
 
-[ext_resource type="FontFile" path="res://assets/fonts/NotoSansKR-Regular.woff2" id="1_font"]
+[ext_resource type="FontFile" path="res://assets/fonts/NotoSansKR-Regular.ttf" id="1_font"]
 
 [resource]
 default_base_font = ExtResource("1_font")
