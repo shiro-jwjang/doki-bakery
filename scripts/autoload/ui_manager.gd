@@ -11,6 +11,9 @@ var _screen_stack: Array[Control] = []
 
 
 func _ready() -> void:
+	# 한국어 폰트 동적 로드
+	_apply_korean_font()
+
 	# 페이드 효과용 ColorRect 생성
 	_fade_rect = ColorRect.new()
 	_fade_rect.color = Color.BLACK
@@ -19,6 +22,21 @@ func _ready() -> void:
 	_fade_rect.anchor_right = 1.0
 	_fade_rect.anchor_bottom = 1.0
 	_fade_rect.z_index = 1000
+
+
+func _apply_korean_font() -> void:
+	var font_path := "res://assets/fonts/NotoSansKR-Regular.ttf"
+	if not ResourceLoader.exists(font_path):
+		return
+	var font: FontFile = load(font_path)
+	if not font:
+		return
+	var theme := ThemeDB.get_project_theme()
+	if not theme:
+		theme = Theme.new()
+	theme.default_base_font = font
+	theme.default_font_size = 16
+	ThemeDB.set_project_theme(theme)
 
 
 func change_screen(screen_scene: PackedScene, fade: bool = true) -> void:
