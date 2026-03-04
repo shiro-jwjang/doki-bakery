@@ -34,6 +34,24 @@ preload=[{
 "chars": [{
 "end": 126,
 "start": 32
+}, {
+"end": 55203,
+"start": 44032
+}, {
+"end": 57343,
+"start": 55296
+}, {
+"end": 65039,
+"start": 64768
+}, {
+"end": 65535,
+"start": 65056
+}, {
+"end": 131071,
+"start": 126976
+}, {
+"end": 194559,
+"start": 127744
 }],
 "glyphs": null,
 "variations": []
