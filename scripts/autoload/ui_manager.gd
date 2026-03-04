@@ -31,12 +31,10 @@ func _apply_korean_font() -> void:
 	var font: FontFile = load(font_path)
 	if not font:
 		return
-	var theme := ThemeDB.get_project_theme()
-	if not theme:
-		theme = Theme.new()
-	theme.default_base_font = font
+	var theme := Theme.new()
+	theme.default_font = font
 	theme.default_font_size = 16
-	ThemeDB.set_project_theme(theme)
+	ProjectSettings.set_setting("theme/theme", theme)
 
 
 func change_screen(screen_scene: PackedScene, fade: bool = true) -> void:
