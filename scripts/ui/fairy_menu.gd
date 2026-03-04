@@ -112,7 +112,7 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 	else:
 		print("FairyMenu: Icon not found: ", fairy_data.icon)
 
-	icon_rect.custom_minimum_size = Vector2(80, 80) # Larger icon display
+	icon_rect.custom_minimum_size = Vector2(80, 80)  # Larger icon display
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	header.add_child(icon_rect)
@@ -120,7 +120,7 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 	var name_label = Label.new()
 	name_label.text = fairy_data.name
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16)) # GDD Dark Brown
+	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16))  # GDD Dark Brown
 	name_label.add_theme_font_size_override("font_size", 18)
 	header.add_child(name_label)
 
@@ -141,7 +141,7 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 	# Description
 	var desc_label = Label.new()
 	desc_label.text = fairy_data.description
-	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.8)) # GDD Dark Brown with alpha
+	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.8))  # GDD Dark Brown with alpha
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	container.add_child(desc_label)
 

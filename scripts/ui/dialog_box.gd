@@ -41,11 +41,7 @@ func _gui_input(event: InputEvent) -> void:
 	if not visible:
 		return
 
-	if (
-		event is InputEventMouseButton
-		and event.pressed
-		and event.button_index == MOUSE_BUTTON_LEFT
-	):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		advance()
 		accept_event()
 

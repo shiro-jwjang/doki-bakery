@@ -99,7 +99,7 @@ func _create_upgrade_item(upgrade_data: UpgradeData) -> Control:
 	var name_label = Label.new()
 	name_label.text = upgrade_data.name
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16)) # GDD Dark Brown
+	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16))  # GDD Dark Brown
 	name_label.add_theme_font_size_override("font_size", 18)
 	header.add_child(name_label)
 
@@ -112,7 +112,7 @@ func _create_upgrade_item(upgrade_data: UpgradeData) -> Control:
 	# Description
 	var desc_label = Label.new()
 	desc_label.text = upgrade_data.description
-	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.7)) # GDD Dark Brown with alpha
+	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.7))  # GDD Dark Brown with alpha
 	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	container.add_child(desc_label)
 

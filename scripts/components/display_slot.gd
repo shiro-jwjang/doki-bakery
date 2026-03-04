@@ -43,7 +43,6 @@ func _get_data_manager() -> Node:
 @onready var price_label: Label = $VBoxContainer/PriceLabel
 @onready var sell_button: Button = $VBoxContainer/SellButton
 
-
 var sell_timer: float = 0.0
 const AUTO_SELL_INTERVAL: float = 5.0
 
