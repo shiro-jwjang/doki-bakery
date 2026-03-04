@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [windows, linux, mac]
+        target: [windows, linux]
 
     steps:
       - name: Checkout
