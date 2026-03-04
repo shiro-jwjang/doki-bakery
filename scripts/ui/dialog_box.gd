@@ -107,7 +107,14 @@ func _show_current() -> void:
 	portrait.hide()
 	portrait_texture.hide()
 
-	if dialog.has("portrait_path") and ResourceLoader.exists(dialog["portrait_path"]):
+	# 1. 미리 로드된 텍스처 사용 (preload)
+	if dialog.has("portrait") and dialog["portrait"] is Texture2D:
+		portrait_texture.texture = dialog["portrait"]
+		portrait_texture.texture_filter = TEXTURE_FILTER_NEAREST
+		portrait_texture.show()
+		portrait.get_parent().show()
+	# 2. 경로에서 동적 로드 (fallback)
+	elif dialog.has("portrait_path") and ResourceLoader.exists(dialog["portrait_path"]):
 		var tex = load(dialog["portrait_path"])
 		if tex:
 			portrait_texture.texture = tex
@@ -115,6 +122,7 @@ func _show_current() -> void:
 			portrait_texture.texture_filter = TEXTURE_FILTER_NEAREST
 			portrait_texture.show()
 			portrait.get_parent().show()
+	# 3. 이모지 사용
 	elif dialog.has("emoji"):
 		portrait.text = dialog["emoji"]
 		portrait.show()
