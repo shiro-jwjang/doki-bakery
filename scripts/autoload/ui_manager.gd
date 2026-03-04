@@ -28,15 +28,12 @@ func _ready() -> void:
 
 
 func _apply_korean_font() -> void:
-	var font_path := "res://assets/fonts/NotoSansKR-Regular.ttf"
-	if not ResourceLoader.exists(font_path):
+	var theme_path := "res://assets/fonts/korean_theme.tres"
+	if not ResourceLoader.exists(theme_path):
 		return
-	var font: FontFile = load(font_path)
-	if not font:
+	var theme: Theme = load(theme_path)
+	if not theme:
 		return
-	var theme := Theme.new()
-	theme.default_font = font
-	theme.default_font_size = 16
 	ProjectSettings.set_setting("theme/theme", theme)
 
 
