@@ -65,15 +65,20 @@ func _update_slots() -> void:
 		if current_level < unlock_level:
 			if label:
 				label.text = "%s\n🔒 Lv.%d" % [bread_name, unlock_level]
+			_slots[i].modulate = Color(0.5, 0.5, 0.5, 1.0)  # 회색 틴트
 			_slots[i].disabled = true
 		elif pm.has_method("is_producing") and pm.is_producing(bread_id):
 			var remaining = (
 				pm.get_remaining_time(bread_id) if pm.has_method("get_remaining_time") else 0.0
 			)
 			if label:
-				label.text = "%s\n%.1f초" % [bread_name, remaining]
+				label.text = "%s\n🔥 %.1f초" % [bread_name, remaining]
+			# 생산 중 indicator: 주황색 틴트
+			_slots[i].modulate = Color(1.0, 0.7, 0.3, 1.0)
 			_slots[i].disabled = true
 		else:
+			# 기본 상태로 복원
+			_slots[i].modulate = Color.WHITE
 			if label:
 				label.text = bread_name
 			_slots[i].disabled = false
