@@ -66,9 +66,10 @@ jobs:
 
       - name: Import project and check scripts
         run: |
-          timeout 120 godot --headless --import 2>&1 || true
-          timeout 120 godot --headless --import 2>&1 || true
-          timeout 120 godot --headless --check-only --script-check 2>&1
+          # addons/는 서드파티 코드이므로 type-check에서 제외
+          touch addons/gut/.gdignore
+          timeout 180 godot --headless --import 2>&1 || true
+          timeout 180 godot --headless --check-only --script-check 2>&1
           echo "✅ Script validation complete"
 
   # test job 제거됨 - GitHub Actions 시간 절약 목적

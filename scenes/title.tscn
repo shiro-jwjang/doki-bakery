@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dv8d2bc5pmv50"]
 
 [ext_resource type="Script" uid="uid://8kpy85rtyoib" path="res://scripts/title.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cl807hpduixq7" path="res://assets/images/icons/bread.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://du360ta8cjxyx" path="res://assets/images/icons/bread.png" id="2"]
 
 [node name="Title" type="Control" unique_id=367979035]
 layout_mode = 3
