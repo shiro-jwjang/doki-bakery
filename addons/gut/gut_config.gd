@@ -4,11 +4,20 @@
 # to a json file.  It is also responsible for applying these settings to GUT.
 #
 # ##############################################################################
-var valid_fonts = ["AnonymousPro", "CourierPro", "LobsterTwo", "Default"]
+const FAIL_ERROR_TYPE_ENGINE = &'engine'
+const FAIL_ERROR_TYPE_PUSH_ERROR = &'push_error'
+const FAIL_ERROR_TYPE_GUT = &'gut'
+
+
+
+var valid_fonts = GutUtils.gut_fonts.get_font_names()
+var _deprecated_values = {
+	"errors_do_not_cause_failure": "Use failure_error_types instead."
+}
 
 var default_options = {
 	background_color = Color(.15, .15, .15, 1).to_html(),
-	config_file = "res://.gutconfig.json",
+	config_file = 'res://.gutconfig.json',
 	# used by editor to handle enabled/disabled dirs.  All dirs configured go
 	# here and only the enabled dirs go into dirs
 	configured_dirs = [],
@@ -18,38 +27,42 @@ var default_options = {
 	# lowercase name with spaces:  0/SCRIPT_ONLY/script only
 	# The GUI gut config expects the value to be the enum value and not a string
 	# when saved.
-	double_strategy = "SCRIPT_ONLY",
-	# named differently than gut option so we can use it as a flag in the cli
-	errors_do_not_cause_failure = false,
+	double_strategy = 'SCRIPT_ONLY',
 	font_color = Color(.8, .8, .8, 1).to_html(),
-	font_name = "CourierPrime",
+	font_name = GutUtils.gut_fonts.DEFAULT_CUSTOM_FONT_NAME,
 	font_size = 16,
 	hide_orphans = false,
 	ignore_pause = false,
 	include_subdirs = false,
-	inner_class = "",
-	junit_xml_file = "",
+	inner_class = '',
+	junit_xml_file = '',
 	junit_xml_timestamp = false,
 	log_level = 1,
 	opacity = 100,
 	paint_after = .1,
-	post_run_script = "",
-	pre_run_script = "",
-	prefix = "test_",
-	selected = "",
-	should_exit = false,
+	post_run_script = '',
+	pre_run_script = '',
+	prefix = 'test_',
+	selected = '',
 	should_exit_on_success = false,
+	should_exit = false,
 	should_maximize = false,
 	compact_mode = false,
 	show_help = false,
-	suffix = ".gd",
+	suffix = '.gd',
 	tests = [],
-	unit_test_name = "",
+	unit_test_name = '',
+
+	no_error_tracking = false,
+	failure_error_types = ["engine", "gut", "push_error"],
+	wait_log_delay = .5,
+
 	gut_on_top = true,
 }
 
-var options = default_options.duplicate()
 
+var options = default_options.duplicate()
+var logger = GutUtils.get_logger()
 
 func _null_copy(h):
 	var new_hash = {}
@@ -59,29 +72,30 @@ func _null_copy(h):
 
 
 func _load_options_from_config_file(file_path, into):
-	# SHORTCIRCUIT
-	if !FileAccess.file_exists(file_path):
-		if file_path != "res://.gutconfig.json":
-			print('ERROR:  Config File "', file_path, '" does not exist.')
+	if(!FileAccess.file_exists(file_path)):
+		# Default files are ok to be missing.  Maybe this is too deep a place
+		# to implement this, but here it is.
+		if(file_path != 'res://.gutconfig.json' and file_path != GutUtils.EditorGlobals.editor_run_gut_config_path):
+			logger.error(str('Config File "', file_path, '" does not exist.'))
 			return -1
 		else:
 			return 1
 
 	var f = FileAccess.open(file_path, FileAccess.READ)
-	if f == null:
+	if(f == null):
 		var result = FileAccess.get_open_error()
-		push_error(str("Could not load data ", file_path, " ", result))
+		logger.error(str("Could not load data ", file_path, ' ', result))
 		return result
 
 	var json = f.get_as_text()
-	f = null  # close file
+	f = null # close file
 
 	var test_json_conv = JSON.new()
 	test_json_conv.parse(json)
 	var results = test_json_conv.get_data()
 	# SHORTCIRCUIT
-	if results == null:
-		print("\n\n", "!! ERROR parsing file:  ", file_path)
+	if(results == null):
+		logger.error(str("Could not parse file:  ", file_path))
 		return -1
 
 	# Get all the options out of the config file using the option name.  The
@@ -93,9 +107,9 @@ func _load_options_from_config_file(file_path, into):
 
 func _load_dict_into(source, dest):
 	for key in dest:
-		if source.has(key):
-			if source[key] != null:
-				if typeof(source[key]) == TYPE_DICTIONARY:
+		if(source.has(key)):
+			if(source[key] != null):
+				if(typeof(source[key]) == TYPE_DICTIONARY):
 					_load_dict_into(source[key], dest[key])
 				else:
 					dest[key] = source[key]
@@ -104,9 +118,14 @@ func _load_dict_into(source, dest):
 # Apply all the options specified to tester.  This is where the rubber meets
 # the road.
 func _apply_options(opts, gut):
+	for entry in _deprecated_values.keys():
+		if(opts.has(entry)):
+			# Use gut.logger instead of our own for testing purposes.
+			logger.deprecated(str('Config value "', entry, '" is deprecated.  ', _deprecated_values[entry]))
+
 	gut.include_subdirectories = opts.include_subdirs
 
-	if opts.inner_class != "":
+	if(opts.inner_class != ''):
 		gut.inner_class_name = opts.inner_class
 	gut.log_level = opts.log_level
 	gut.ignore_pause_before_teardown = opts.ignore_pause
@@ -121,8 +140,8 @@ func _apply_options(opts, gut):
 
 	# Sometimes it is the index, sometimes it's a string.  This sets it regardless
 	gut.double_strategy = GutUtils.get_enum_value(
-		opts.double_strategy, GutUtils.DOUBLE_STRATEGY, GutUtils.DOUBLE_STRATEGY.SCRIPT_ONLY
-	)
+		opts.double_strategy, GutUtils.DOUBLE_STRATEGY,
+		GutUtils.DOUBLE_STRATEGY.SCRIPT_ONLY)
 
 	gut.unit_test_name = opts.unit_test_name
 	gut.pre_run_script = opts.pre_run_script
@@ -132,7 +151,19 @@ func _apply_options(opts, gut):
 	gut.junit_xml_file = opts.junit_xml_file
 	gut.junit_xml_timestamp = opts.junit_xml_timestamp
 	gut.paint_after = str(opts.paint_after).to_float()
-	gut.treat_error_as_failure = !opts.errors_do_not_cause_failure
+	gut.wait_log_delay = opts.wait_log_delay
+
+	# These error_tracker options default to true.  Don't trust this comment.
+	if(!opts.failure_error_types.has(FAIL_ERROR_TYPE_ENGINE)):
+		gut.error_tracker.treat_engine_errors_as = GutUtils.TREAT_AS.NOTHING
+
+	if(!opts.failure_error_types.has(FAIL_ERROR_TYPE_PUSH_ERROR)):
+		gut.error_tracker.treat_push_error_as = GutUtils.TREAT_AS.NOTHING
+
+	if(!opts.failure_error_types.has(FAIL_ERROR_TYPE_GUT)):
+		gut.error_tracker.treat_gut_errors_as = GutUtils.TREAT_AS.NOTHING
+
+	gut.error_tracker.register_loggers = !opts.no_error_tracking
 
 	return gut
 
@@ -141,15 +172,15 @@ func _apply_options(opts, gut):
 # Public
 # --------------------------
 func write_options(path):
-	var content = JSON.stringify(options, " ")
+	var content = JSON.stringify(options, ' ')
 
 	var f = FileAccess.open(path, FileAccess.WRITE)
 	var result = FileAccess.get_open_error()
-	if f != null:
+	if(f != null):
 		f.store_string(content)
-		f = null  # closes file
+		f = null # closes file
 	else:
-		print("ERROR:  could not open file ", path, " ", result)
+		logger.error(str("Could not open file ", path, ' ', result))
 	return result
 
 
@@ -175,11 +206,14 @@ func load_options_no_defaults(path):
 func apply_options(gut):
 	_apply_options(options, gut)
 
+
+
+
 # ##############################################################################
 # The MIT License (MIT)
 # =====================
 #
-# Copyright (c) 2023 Tom "Butch" Wesley
+# Copyright (c) 2025 Tom "Butch" Wesley
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal

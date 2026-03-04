@@ -6,12 +6,12 @@
 # This could become more complex overtime, but right now all we have to do is
 # to make sure the console printer is enabled or you do not get any output.
 # ------------------------------------------------------------------------------
-extends "res://addons/gut/gut_cmdln.gd"
-
+extends 'res://addons/gut/gut_cmdln.gd'
 
 func run_tests(runner):
-	runner.get_gut().get_logger().disable_printer("console", false)
+	runner.get_gut().get_logger().disable_printer('console', false)
 	runner.run_tests()
+
 
 # ##############################################################################
 #(G)odot (U)nit (T)est class
@@ -20,7 +20,7 @@ func run_tests(runner):
 # The MIT License (MIT)
 # =====================
 #
-# Copyright (c) 2023 Tom "Butch" Wesley
+# Copyright (c) 2025 Tom "Butch" Wesley
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
