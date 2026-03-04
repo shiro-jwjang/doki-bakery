@@ -8,8 +8,10 @@
 
 # Godot imported cache (폰트는 포함)
 .godot/imported/
+!.godot/imported/
 !.godot/imported/*NotoSansKR*
-!.godot/imported/*font*
+!.godot/imported/*NotoSansKR*.fontdata
+!.godot/imported/*NotoSansKR*.md5
 
 # User-specific files
 user://
