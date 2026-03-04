@@ -14,9 +14,6 @@ func _ready() -> void:
 	if "--check-only" in OS.get_cmdline_args() or "--script-check" in OS.get_cmdline_args():
 		return
 
-	# 한국어 폰트 동적 로드
-	_apply_korean_font()
-
 	# 페이드 효과용 ColorRect 생성
 	_fade_rect = ColorRect.new()
 	_fade_rect.color = Color.BLACK
@@ -25,16 +22,6 @@ func _ready() -> void:
 	_fade_rect.anchor_right = 1.0
 	_fade_rect.anchor_bottom = 1.0
 	_fade_rect.z_index = 1000
-
-
-func _apply_korean_font() -> void:
-	var theme_path := "res://assets/fonts/korean_theme.tres"
-	if not ResourceLoader.exists(theme_path):
-		return
-	var theme: Theme = load(theme_path)
-	if not theme:
-		return
-	ProjectSettings.set_setting("theme/theme", theme)
 
 
 func change_screen(screen_scene: PackedScene, fade: bool = true) -> void:
