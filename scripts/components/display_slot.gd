@@ -44,11 +44,25 @@ func _get_data_manager() -> Node:
 @onready var sell_button: Button = $VBoxContainer/SellButton
 
 
+var sell_timer: float = 0.0
+const AUTO_SELL_INTERVAL: float = 5.0
+
+
 func _ready() -> void:
 	if sell_button and not sell_button.pressed.is_connected(_on_sell_pressed):
 		sell_button.pressed.connect(_on_sell_pressed)
 
 	_update_ui()
+
+
+func _process(delta: float) -> void:
+	if state == "displayed" and quantity > 0:
+		sell_timer += delta
+		if sell_timer >= AUTO_SELL_INTERVAL:
+			sell_timer = 0.0
+			sell_bread()
+	else:
+		sell_timer = 0.0
 
 
 func display_bread(bread_id: String, amount: int) -> void:

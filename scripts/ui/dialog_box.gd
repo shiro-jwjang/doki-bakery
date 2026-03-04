@@ -13,6 +13,7 @@ signal dialog_finished
 signal dialog_advanced(current_index: int, total: int)
 
 @onready var portrait: Label = $Background/PortraitContainer/Portrait
+@onready var portrait_texture: TextureRect = $Background/PortraitContainer/PortraitTexture
 @onready var speaker_name: Label = $Background/SpeakerName
 @onready var dialog_text: Label = $Background/DialogText
 @onready var click_hint: Label = $Background/ClickHint
@@ -36,20 +37,26 @@ func _ready() -> void:
 	click_hint.visible = show_click_hint
 
 
-func _input(event: InputEvent) -> void:
+func _gui_input(event: InputEvent) -> void:
 	if not visible:
 		return
 
-	var viewport = get_viewport()
-	if viewport == null:
+	if (
+		event is InputEventMouseButton
+		and event.pressed
+		and event.button_index == MOUSE_BUTTON_LEFT
+	):
+		advance()
+		accept_event()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
 		return
 
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_SPACE:
 		advance()
-		viewport.set_input_as_handled()
-	elif event is InputEventKey and event.pressed and event.keycode == KEY_SPACE:
-		advance()
-		viewport.set_input_as_handled()
+		get_viewport().set_input_as_handled()
 
 
 ## 대화 목록 설정
@@ -101,8 +108,20 @@ func _show_current() -> void:
 	tween.tween_property(self, "modulate:a", 1.0, 0.15)
 
 	# 내용 설정
-	if dialog.has("emoji"):
+	portrait.hide()
+	portrait_texture.hide()
+
+	if dialog.has("portrait_path") and ResourceLoader.exists(dialog["portrait_path"]):
+		var tex = load(dialog["portrait_path"])
+		if tex:
+			portrait_texture.texture = tex
+			# Ensure pixel art looks sharp
+			portrait_texture.texture_filter = TEXTURE_FILTER_NEAREST
+			portrait_texture.show()
+			portrait.get_parent().show()
+	elif dialog.has("emoji"):
 		portrait.text = dialog["emoji"]
+		portrait.show()
 		portrait.get_parent().show()
 	else:
 		portrait.get_parent().hide()

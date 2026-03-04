@@ -95,16 +95,28 @@ echo ""
 # 4. Tests
 echo -e "${YELLOW}🧪 Tests${NC}"
 if [ -d "test" ] && [ -f "addons/gut/gut_cmdln.gd" ]; then
-    TEST_OUTPUT=$(timeout 60 godot --headless -s addons/gut/gut_cmdln.gd 2>&1 || true)
+    # Run tests and save to temp file using tee
+    # Note: Not using timeout because it truncates output with tee
+    TEMP_FILE=$(mktemp)
+    godot --headless -s addons/gut/gut_cmdln.gd 2>&1 | tee "$TEMP_FILE" > /dev/null || true
 
-    # Parse test results
-    if echo "$TEST_OUTPUT" | grep -qi "all tests passed\|passed"; then
-        PASSED=$(echo "$TEST_OUTPUT" | grep -o '[0-9]\+ tests' | head -1 || echo "?")
-        echo -e "  ${GREEN}✅ Tests passed${NC}"
-    elif echo "$TEST_OUTPUT" | grep -qi "failed"; then
-        FAILED=$(echo "$TEST_OUTPUT" | grep -o '[0-9]\+ failed' || echo "?")
+    # Strip ANSI codes and parse results
+    PASSING=$(tr -d '\033' < "$TEMP_FILE" | grep "Passing Tests" | awk '{print $NF}' | tr -d ' ')
+    FAILING=$(tr -d '\033' < "$TEMP_FILE" | grep "Failing Tests" | awk '{print $NF}' | tr -d ' ')
+    rm -f "$TEMP_FILE"
+
+    if [ -n "$PASSING" ]; then
+        if [ -z "$FAILING" ] || [ "$FAILING" = "0" ]; then
+            echo -e "  ${GREEN}✅ All tests passed${NC} ($PASSING tests)"
+        else
+            echo -e "  ${RED}❌ Some tests failed${NC}"
+            echo -e "  ${RED}   $FAILING failing, $PASSING passing${NC}"
+            OVERALL_STATUS=1
+        fi
+    elif echo "$TEST_OUTPUT" | grep -qi "All tests passed"; then
+        echo -e "  ${GREEN}✅ All tests passed${NC}"
+    elif echo "$TEST_OUTPUT" | grep -qi "failing tests"; then
         echo -e "  ${RED}❌ Some tests failed${NC}"
-        echo -e "  ${RED}   $FAILED${NC}"
         OVERALL_STATUS=1
     else
         echo -e "  ${YELLOW}⚠️  Could not parse test results${NC}"

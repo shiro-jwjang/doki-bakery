@@ -18,7 +18,7 @@
       "icon": "res://assets/images/characters/fairy_flour.png"
     },
     {
-      "id": "strawberry_fairy",
+      "id": "fairy_strawberry",
       "name": "딸기 요정",
       "name_en": "Strawberry Fairy",
       "description": "딸기 관련 빵 제작 속도 +20%",
@@ -35,7 +35,7 @@
       "icon": "res://assets/images/characters/fairy_strawberry.png"
     },
     {
-      "id": "chocolate_fairy",
+      "id": "fairy_chocolate",
       "name": "초코 요정",
       "name_en": "Chocolate Fairy",
       "description": "초콜릿 빵 판매가 +15%",
@@ -52,7 +52,7 @@
       "icon": "res://assets/images/characters/fairy_chocolate.png"
     },
     {
-      "id": "mint_fairy",
+      "id": "fairy_mint",
       "name": "민트 요정",
       "name_en": "Mint Fairy",
       "description": "전체 제작 속도 +10%",

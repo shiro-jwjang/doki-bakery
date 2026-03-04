@@ -282,9 +282,6 @@ func test_save_creates_backup():
 
 
 func test_backup_restore_on_corrupted_save():
-	# GUT 9.5.0+ auto-fails on errors, disable for intentional error test
-	disable_error_detection()
-
 	SaveManager.current_save.gold = 1000
 	SaveManager.save_game()
 
@@ -295,6 +292,8 @@ func test_backup_restore_on_corrupted_save():
 
 	# Load should restore from backup (will print error, that's expected)
 	var loaded = SaveManager.load_game()
+	# GUT 9.6.0: Assert that we expect a push_error when loading corrupted save
+	assert_push_error("corrupted", "Expected error when loading corrupted save")
 	assert_eq(loaded.gold, 1000, "Should restore gold from backup")
 
 

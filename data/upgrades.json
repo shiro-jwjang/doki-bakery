@@ -32,6 +32,17 @@
       "max_level": 10,
       "base_cost": 150,
       "cost_multiplier": 1.8
+    },
+    {
+      "id": "oven_capacity",
+      "name": "오븐 슬롯 확장",
+      "name_en": "Oven Expansion",
+      "description": "오븐 제작 슬롯 +1",
+      "type": "production_slots",
+      "bonus": 1,
+      "max_level": 3,
+      "base_cost": 300,
+      "cost_multiplier": 2.5
     }
   ]
 }

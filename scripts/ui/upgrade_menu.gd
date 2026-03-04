@@ -99,17 +99,21 @@ func _create_upgrade_item(upgrade_data: UpgradeData) -> Control:
 	var name_label = Label.new()
 	name_label.text = upgrade_data.name
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16)) # GDD Dark Brown
+	name_label.add_theme_font_size_override("font_size", 18)
 	header.add_child(name_label)
 
 	var level_label = Label.new()
 	var current_level = upgrade_levels.get(upgrade_data.id, 0)
 	level_label.text = "Lv.%d/%d" % [current_level, upgrade_data.max_level]
+	level_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.9))
 	header.add_child(level_label)
 
 	# Description
 	var desc_label = Label.new()
 	desc_label.text = upgrade_data.description
-	desc_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.7)) # GDD Dark Brown with alpha
+	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	container.add_child(desc_label)
 
 	# Cost and Purchase button
@@ -119,6 +123,7 @@ func _create_upgrade_item(upgrade_data: UpgradeData) -> Control:
 	var cost_label = Label.new()
 	var cost = _calculate_cost(upgrade_data, current_level)
 	cost_label.text = "%d골드" % cost
+	cost_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 1))
 	footer.add_child(cost_label)
 
 	var buy_button = Button.new()

@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/production_panel.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://fairy_menu" path="res://scenes/ui/FairyMenu.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://upgrade_menu" path="res://scenes/ui/UpgradeMenu.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bread_menu" path="res://scenes/ui/BreadMenu.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://n8xlkn0y2j1q" path="res://scenes/components/DisplaySlot.tscn" id="7"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="5"]
 
 [node name="Main" type="Node2D"]
@@ -65,8 +67,42 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "⬆️ 업그레이드"
 
+[node name="DisplayStand" type="GridContainer" parent="UILayer"]
+mouse_filter = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 4
+
+[node name="DisplaySlot0" parent="UILayer/DisplayStand" instance=ExtResource("7")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DisplaySlot1" parent="UILayer/DisplayStand" instance=ExtResource("7")]
+layout_mode = 2
+size_flags_horizontal = 3
+slot_index = 1
+
+[node name="DisplaySlot2" parent="UILayer/DisplayStand" instance=ExtResource("7")]
+layout_mode = 2
+size_flags_horizontal = 3
+slot_index = 2
+
 [node name="FairyMenu" parent="UILayer" instance=ExtResource("3")]
 visible = false
 
 [node name="UpgradeMenu" parent="UILayer" instance=ExtResource("4")]
+visible = false
+
+[node name="BreadMenu" parent="UILayer" instance=ExtResource("6")]
 visible = false

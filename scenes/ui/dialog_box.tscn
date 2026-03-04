@@ -20,6 +20,7 @@ anchor_bottom = 1.0
 offset_top = -200.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 1
 color = Color(1, 1, 1, 0.95)
 
 [node name="PortraitContainer" type="CenterContainer" parent="Background"]
@@ -28,16 +29,24 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_top = -80.0
-offset_right = 120.0
+offset_right = 140.0
 offset_bottom = -20.0
 grow_vertical = 2
 
 [node name="Portrait" type="Label" parent="Background/PortraitContainer"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 60
 text = "🧚"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PortraitTexture" type="TextureRect" parent="Background/PortraitContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
 
 [node name="SpeakerName" type="Label" parent="Background"]
 layout_mode = 1
@@ -46,7 +55,7 @@ offset_left = 140.0
 offset_top = 15.0
 offset_right = 300.0
 offset_bottom = 45.0
-theme_override_colors/font_color = Color(0.55, 0.4, 0.25, 1)
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 1)
 theme_override_font_sizes/font_size = 20
 text = "화자 이름"
 
@@ -57,7 +66,7 @@ offset_left = 140.0
 offset_top = 50.0
 offset_right = 1250.0
 offset_bottom = 160.0
-theme_override_colors/font_color = Color(0.3, 0.3, 0.3, 1)
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 0.9)
 theme_override_font_sizes/font_size = 18
 text = "대화 내용이 여기에 표시됩니다."
 autowrap_mode = 2
@@ -75,7 +84,7 @@ offset_right = -15.0
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 0.6)
 theme_override_font_sizes/font_size = 14
 text = "클릭하여 계속..."
 horizontal_alignment = 2

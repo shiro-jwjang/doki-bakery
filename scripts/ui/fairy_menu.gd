@@ -98,30 +98,30 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	container.add_child(header)
 
-	# Fairy icon - 스프라이트시트에서 첫 번째 캐릭터(64x64)만 표시
+	# Fairy icon - Display full image (64x64) and ensure it's pixel-perfect
 	var icon_rect = TextureRect.new()
 	if fairy_data.icon and ResourceLoader.exists(fairy_data.icon):
 		var tex = load(fairy_data.icon)
 		if tex:
-			# AtlasTexture 생성하여 64x64 영역만 참조
-			var atlas = AtlasTexture.new()
-			atlas.atlas = tex
-			atlas.region = Rect2(0, 0, 64, 64)
-			icon_rect.texture = atlas
-			print("FairyMenu: Loaded icon (64x64 crop) for ", fairy_data.name)
+			icon_rect.texture = tex
+			# Ensure pixel art looks sharp
+			icon_rect.texture_filter = TEXTURE_FILTER_NEAREST
+			print("FairyMenu: Loaded icon for ", fairy_data.name)
 		else:
 			print("FairyMenu: Failed to load texture: ", fairy_data.icon)
 	else:
 		print("FairyMenu: Icon not found: ", fairy_data.icon)
 
-	icon_rect.custom_minimum_size = Vector2(64, 64)
+	icon_rect.custom_minimum_size = Vector2(80, 80) # Larger icon display
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
+	icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	header.add_child(icon_rect)
 
 	var name_label = Label.new()
 	name_label.text = fairy_data.name
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16)) # GDD Dark Brown
+	name_label.add_theme_font_size_override("font_size", 18)
 	header.add_child(name_label)
 
 	var status_label = Label.new()
@@ -141,7 +141,8 @@ func _create_fairy_item(fairy_data: FairyData) -> Control:
 	# Description
 	var desc_label = Label.new()
 	desc_label.text = fairy_data.description
-	desc_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+	desc_label.add_theme_color_override("font_color", Color(0.29, 0.22, 0.16, 0.8)) # GDD Dark Brown with alpha
+	desc_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	container.add_child(desc_label)
 
 	# Hire button

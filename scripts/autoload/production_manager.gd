@@ -106,6 +106,8 @@ func _process(_delta):
 	var current_time = Time.get_unix_time_from_system()
 	var finished_slots = []
 
+	_update_max_slots()
+
 	for slot_index in active_baking.keys():
 		var data = active_baking[slot_index]
 		var elapsed = current_time - data.start_time
@@ -239,3 +241,11 @@ func start_production(bread_id: String, fairy_id: String = "") -> bool:
 
 	printerr("ProductionManager: No free slots available")
 	return false
+
+
+func _update_max_slots() -> void:
+	var save_mgr = _get_save_manager()
+	if save_mgr and save_mgr.current_save:
+		var upgrade_level = save_mgr.current_save.upgrade_levels.get("oven_capacity", 0)
+		# 기본 슬롯 2개 + 업그레이드 레벨당 1개 추가
+		max_slots = 2 + upgrade_level

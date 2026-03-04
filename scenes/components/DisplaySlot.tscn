@@ -29,16 +29,19 @@ stretch_mode = 5
 
 [node name="BreadNameLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 1)
 text = "비어있음"
 horizontal_alignment = 1
 
 [node name="QuantityLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 1)
 text = "x0"
 horizontal_alignment = 1
 
 [node name="PriceLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.22, 0.16, 1)
 text = "0골드"
 horizontal_alignment = 1
 

@@ -1,10 +1,10 @@
 # Godot-specific ignores
 .import/
-.godot/imported/
+.godot/
 *.translation
 
 # Imported files
-*.import
+# *.import (Keep these in Git for consistent asset settings)
 
 # User-specific files
 user://
