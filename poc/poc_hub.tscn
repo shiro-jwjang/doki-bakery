@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=3 uid="uid://poc_hub"]
+
+[ext_resource type="Script" path="res://poc/poc_hub.gd" id="1_hub"]
+
+[node name="PocHub" type="Node"]
+script = ExtResource("1_hub")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+
+[node name="Title" type="Label" parent="UI/VBox"]
+text = "🍞 두근두근 베이커리 — PoC 검증 허브"
+
+[node name="Spacer" type="Control" parent="UI/VBox"]
+custom_minimum_size = Vector2(0, 20)
+
+[node name="BtnWindow" type="Button" parent="UI/VBox"]
+text = "PoC 1: 항상 위 고정 + 픽셀 스케일링"
+
+[node name="BtnYSort" type="Button" parent="UI/VBox"]
+text = "PoC 2: 쿼터뷰 Y-Sort (깊이 정렬)"
+
+[node name="BtnOffline" type="Button" parent="UI/VBox"]
+text = "PoC 3: 오프라인 보상 타이머"
+
+[connection signal="pressed" from="UI/VBox/BtnWindow" to="." method="_on_btn_window_pressed"]
+[connection signal="pressed" from="UI/VBox/BtnYSort" to="." method="_on_btn_ysort_pressed"]
+[connection signal="pressed" from="UI/VBox/BtnOffline" to="." method="_on_btn_offline_pressed"]

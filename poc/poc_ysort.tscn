@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://poc_ysort"]
+
+[ext_resource type="Script" path="res://poc/poc_ysort.gd" id="1_ysort"]
+
+[node name="PocYSort" type="Node2D"]
+script = ExtResource("1_ysort")
+
+[node name="YSortRoot" type="Node2D" parent="."]
+y_sort_enabled = true
+position = Vector2(640, 360)
+
+[node name="Character" type="ColorRect" parent="YSortRoot"]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 0.0
+color = Color(0.2, 0.4, 0.9, 1.0)
+metadata/_ysort_origin = Vector2(0, 0)
+
+[node name="CharLabel" type="Label" parent="YSortRoot/Character"]
+offset_top = -20.0
+text = "캐릭"
+horizontal_alignment = 1
+
+[node name="Object1" type="ColorRect" parent="YSortRoot"]
+position = Vector2(0, 0)
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 0.0
+color = Color(0.6, 0.4, 0.2, 1.0)
+
+[node name="Obj1Label" type="Label" parent="YSortRoot/Object1"]
+offset_top = -20.0
+text = "진열대 A"
+horizontal_alignment = 1
+
+[node name="Object2" type="ColorRect" parent="YSortRoot"]
+position = Vector2(120, 60)
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 0.0
+color = Color(0.6, 0.4, 0.2, 1.0)
+
+[node name="Obj2Label" type="Label" parent="YSortRoot/Object2"]
+offset_top = -20.0
+text = "진열대 B"
+horizontal_alignment = 1
+
+[node name="Object3" type="ColorRect" parent="YSortRoot"]
+position = Vector2(-120, -50)
+offset_left = -40.0
+offset_top = -60.0
+offset_right = 40.0
+offset_bottom = 0.0
+color = Color(0.6, 0.4, 0.2, 1.0)
+
+[node name="Obj3Label" type="Label" parent="YSortRoot/Object3"]
+offset_top = -20.0
+text = "진열대 C"
+horizontal_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="LabelPos" type="Label" parent="UI"]
+offset_left = 10.0
+offset_top = 10.0
+text = "캐릭터 위치: -"
+
+[node name="LabelHint" type="Label" parent="UI"]
+offset_left = 10.0
+offset_top = 40.0
+text = ""

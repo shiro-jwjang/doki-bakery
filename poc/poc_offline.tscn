@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://poc_offline"]
+
+[ext_resource type="Script" path="res://poc/poc_offline.gd" id="1_offline"]
+
+[node name="PocOffline" type="Node"]
+script = ExtResource("1_offline")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VBox" type="VBoxContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+
+[node name="Title" type="Label" parent="UI/VBox"]
+text = "PoC 3: 오프라인 보상 타이머"
+
+[node name="LabelGold" type="Label" parent="UI/VBox"]
+name = "LabelGold"
+text = "저장된 골드: -"
+
+[node name="LabelRealtime" type="Label" parent="UI/VBox"]
+name = "LabelRealtime"
+text = "현재 골드 (실시간): -"
+
+[node name="LabelLastSave" type="Label" parent="UI/VBox"]
+name = "LabelLastSave"
+text = "마지막 세이브: -"
+
+[node name="LabelOffline" type="Label" parent="UI/VBox"]
+name = "LabelOffline"
+text = "오프라인 보상: -"
+autowrap_mode = 3
+
+[node name="BtnSave" type="Button" parent="UI/VBox"]
+text = "지금 세이브"
+
+[node name="BtnReset" type="Button" parent="UI/VBox"]
+text = "리셋 (데이터 삭제)"
+
+[node name="Hint" type="Label" parent="UI/VBox"]
+text = "▶ 세이브 후 게임 닫기 → 다시 열면 오프라인 보상 지급\n▶ 시스템 시간을 과거로 돌리면 보상 미지급 확인\n▶ 24시간 이상 경과 시 상한 적용 확인"
+autowrap_mode = 3
+
+[connection signal="pressed" from="UI/VBox/BtnSave" to="." method="_on_btn_save_pressed"]
+[connection signal="pressed" from="UI/VBox/BtnReset" to="." method="_on_btn_reset_pressed"]
