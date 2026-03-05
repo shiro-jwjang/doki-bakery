@@ -29,11 +29,7 @@ func _ready() -> void:
 			"portrait": _fairy_portrait,
 			"text": "골드를 모아서 업그레이드도 하고,\n새로운 빵도 해금할 수 있어!"
 		},
-		{
-			"speaker": "밀가루 요정",
-			"portrait": _fairy_portrait,
-			"text": "그럼, 이제부터 네 차례야!\n행운을 빌어~ 🍀"
-		},
+		{"speaker": "밀가루 요정", "portrait": _fairy_portrait, "text": "그럼, 이제부터 네 차례야!\n행운을 빌어~ 🍀"},
 	]
 	dialog_box.start_dialogs(tutorials)
 
